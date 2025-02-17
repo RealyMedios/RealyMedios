@@ -217,9 +217,10 @@
             try {
                 // Construir la URL completa para los metadatos
                 const metadataUrl = `${baseUrl}/status-json.xsl`;
+                console.log("Intentando cargar metadatos desde:", metadataUrl);
 
                 // Hacer la solicitud directamente sin proxy
-                const response = await fetch(metadataUrl, { mode: 'no-cors' });
+                const response = await fetch(metadataUrl);
 
                 if (!response.ok) {
                     throw new Error(`Error al cargar los metadatos (código ${response.status})`);
