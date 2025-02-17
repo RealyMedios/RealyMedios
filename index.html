@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RealyMedios Radio</title>
     <style>
+        /* Estilo General */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #121212;
-            color: white;
+            background-color: #121212; /* Fondo oscuro */
+            color: #FFD700; /* Amarillo ocre */
+            text-align: center;
         }
 
         header {
@@ -18,7 +20,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            background-color: #000000;
+            background-color: #000000; /* Negro sólido */
         }
 
         header img {
@@ -29,11 +31,21 @@
         header h1 {
             font-size: 24px;
             margin: 0;
-            color: gold;
+            color: #FFD700; /* Amarillo ocre */
+        }
+
+        nav a {
+            color: #FFD700; /* Amarillo ocre */
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #FFA500; /* Un tono más claro al pasar el mouse */
         }
 
         main {
-            text-align: center;
             padding: 50px 20px;
         }
 
@@ -42,6 +54,7 @@
             display: block;
             margin: 0 auto; /* Centra el logotipo horizontalmente */
             margin-bottom: 20px; /* Espacio entre el logotipo y el reproductor */
+            cursor: pointer; /* Indica que es clickeable */
         }
 
         /* Estilo para el reproductor de audio */
@@ -59,24 +72,41 @@
             margin-top: 10px;
         }
 
-        /* Estilo para el botón de silencio */
-        #muteButton {
-            background-color: gold;
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
+        /* Estilo para los metadatos y conexiones */
+        #metadata, #connections {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #FFD700; /* Amarillo ocre */
         }
 
-        #muteButton:hover {
-            background-color: #e6b800; /* Cambia el color al pasar el mouse */
+        /* Estilo para las redes sociales */
+        .social-media {
+            margin-top: 30px;
+        }
+
+        .social-media a {
+            display: inline-block;
+            margin: 0 15px;
+            color: #FFD700; /* Amarillo ocre */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .social-media a:hover {
+            color: #FFA500; /* Un tono más claro al pasar el mouse */
+        }
+
+        .social-media img {
+            width: 30px;
+            height: 30px;
+            margin-right: 5px;
+            vertical-align: middle;
         }
 
         footer {
-            background-color: #000000;
-            color: white;
+            background-color: #000000; /* Negro sólido */
+            color: #FFD700; /* Amarillo ocre */
             text-align: center;
             padding: 10px;
             position: fixed;
@@ -121,9 +151,21 @@
             <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
         </div>
 
-        <!-- Botón de Silencio -->
-        <div style="margin-top: 10px; text-align: center;">
-            <button id="muteButton">Silenciar</button>
+        <!-- Metadatos y Número de Conexiones -->
+        <div id="metadata">Cargando información...</div>
+        <div id="connections">Cargando número de conexiones...</div>
+
+        <!-- Redes Sociales -->
+        <div class="social-media">
+            <a href="https://www.instagram.com/RealyMedios" target="_blank">
+                <img src="instagram.png" alt="Instagram"> Instagram: @RealyMedios
+            </a>
+            <a href="https://www.tiktok.com/@RealyMediosRadio" target="_blank">
+                <img src="tiktok.png" alt="TikTok"> TikTok: @RealyMediosRadio
+            </a>
+            <a href="https://wa.me/04127047374" target="_blank">
+                <img src="whatsapp.png" alt="WhatsApp"> WhatsApp: 0412.7047374
+            </a>
         </div>
     </main>
 
@@ -132,16 +174,53 @@
     </footer>
 
     <script>
-        // Variable fija para el URL del stream
-        const fixedStreamUrl = "https://calendars-sport-cardiff-jd.trycloudflare.com/stream";
-
         // Obtener los elementos de audio
         const mensajeAudio = document.getElementById('mensajeAudio');
         const streamAudio = document.getElementById('streamAudio');
         const audioSource = document.getElementById('audioSource');
 
-        // Asignar la URL del stream al reproductor
-        audioSource.src = fixedStreamUrl;
+        // Elementos para mostrar metadatos y conexiones
+        const metadataDiv = document.getElementById('metadata');
+        const connectionsDiv = document.getElementById('connections');
+
+        // Función para cargar la URL del stream desde el archivo
+        async function loadStreamUrl() {
+            try {
+                const response = await fetch('stream-url.txt'); // Lee el archivo stream-url.txt
+                if (!response.ok) {
+                    throw new Error(`Error al cargar el archivo (código ${response.status})`);
+                }
+                const fileContent = await response.text(); // Obtiene el contenido del archivo
+                const trimmedUrl = fileContent.trim(); // Elimina espacios en blanco
+
+                // Asigna la URL al reproductor
+                audioSource.src = trimmedUrl;
+                streamAudio.load(); // Carga el nuevo stream
+            } catch (error) {
+                console.error("Error al cargar la URL del stream:", error);
+                metadataDiv.textContent = "Error: No se pudo cargar la URL del stream.";
+            }
+        }
+
+        // Función para obtener metadatos y número de conexiones
+        async function fetchMetadataAndConnections() {
+            try {
+                const response = await fetch('https://calendars-sport-cardiff-jd.trycloudflare.com/status-json.xsl'); // Endpoint de Icecast2
+                const data = await response.json();
+
+                // Mostrar metadatos
+                const currentSong = data.icestats.source.title || "Información no disponible";
+                metadataDiv.textContent = `Ahora sonando: ${currentSong}`;
+
+                // Mostrar número de conexiones
+                const listenerCount = data.icestats.source.listeners || 0;
+                connectionsDiv.textContent = `Oyentes conectados: ${listenerCount}`;
+            } catch (error) {
+                console.error("Error al obtener metadatos y conexiones:", error);
+                metadataDiv.textContent = "No se pudo cargar la información.";
+                connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
+            }
+        }
 
         // Control de volumen
         const volumeSlider = document.getElementById('volumeSlider');
@@ -150,28 +229,17 @@
             streamAudio.volume = volumeSlider.value;
         });
 
-        // Botón de silencio
-        const muteButton = document.getElementById('muteButton');
-        muteButton.addEventListener('click', function () {
-            if (mensajeAudio.muted || streamAudio.muted) {
-                mensajeAudio.muted = false;
-                streamAudio.muted = false;
-                muteButton.textContent = 'Silenciar';
-            } else {
-                mensajeAudio.muted = true;
-                streamAudio.muted = true;
-                muteButton.textContent = 'Desilenciar';
-            }
-        });
-
         // Cuando el mensaje termine, iniciar el stream
         mensajeAudio.addEventListener('ended', function () {
             streamAudio.play(); // Iniciar el stream después del mensaje
         });
 
-        // Iniciar el mensaje al cargar la página
+        // Iniciar el mensaje, cargar la URL del stream y actualizar metadatos al cargar la página
         window.onload = function () {
             mensajeAudio.play();
+            loadStreamUrl(); // Cargar la URL del stream desde el archivo
+            fetchMetadataAndConnections(); // Cargar metadatos y conexiones
+            setInterval(fetchMetadataAndConnections, 10000); // Actualizar cada 10 segundos
         };
     </script>
 </body>
