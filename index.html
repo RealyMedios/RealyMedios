@@ -19,17 +19,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
             background-color: #000000; /* Negro sólido */
         }
 
         header img {
-            width: 80px;
+            width: 60px; /* Tamaño reducido para móviles */
             height: auto;
         }
 
         header h1 {
-            font-size: 24px;
+            font-size: 20px; /* Tamaño reducido para móviles */
             margin: 0;
             color: #FFD700; /* Amarillo ocre */
         }
@@ -39,6 +39,7 @@
             text-decoration: none;
             margin: 0 10px;
             font-weight: bold;
+            font-size: 14px; /* Tamaño reducido para móviles */
         }
 
         nav a:hover {
@@ -46,7 +47,7 @@
         }
 
         main {
-            padding: 50px 20px;
+            padding: 30px 15px; /* Padding reducido para móviles */
         }
 
         /* Estilo para el logotipo */
@@ -55,42 +56,45 @@
             margin: 0 auto; /* Centra el logotipo horizontalmente */
             margin-bottom: 20px; /* Espacio entre el logotipo y el reproductor */
             cursor: pointer; /* Indica que es clickeable */
+            width: 120px; /* Tamaño reducido para móviles */
+            height: auto;
         }
 
         /* Estilo para el reproductor de audio */
         audio {
             width: 100%;
-            max-width: 400px;
+            max-width: 300px;
             margin: 0 auto; /* Centra el reproductor horizontalmente */
             display: block;
         }
 
         /* Estilo para el control de volumen */
         #volumeSlider {
-            width: 80%;
-            max-width: 300px;
+            width: 90%; /* Ancho ajustado para móviles */
+            max-width: 250px;
             margin-top: 10px;
         }
 
         /* Estilo para los metadatos y conexiones */
         #metadata, #connections {
-            margin-top: 20px;
-            font-size: 18px;
+            margin-top: 15px;
+            font-size: 16px; /* Tamaño reducido para móviles */
             font-weight: bold;
             color: #FFD700; /* Amarillo ocre */
         }
 
         /* Estilo para las redes sociales */
         .social-media {
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         .social-media a {
             display: inline-block;
-            margin: 0 15px;
+            margin: 0 10px;
             color: #FFD700; /* Amarillo ocre */
             text-decoration: none;
             font-weight: bold;
+            font-size: 14px; /* Tamaño reducido para móviles */
         }
 
         .social-media a:hover {
@@ -98,8 +102,8 @@
         }
 
         .social-media img {
-            width: 30px;
-            height: 30px;
+            width: 25px; /* Tamaño reducido para móviles */
+            height: 25px;
             margin-right: 5px;
             vertical-align: middle;
         }
@@ -112,6 +116,54 @@
             position: fixed;
             bottom: 0;
             width: 100%;
+            font-size: 12px; /* Tamaño reducido para móviles */
+        }
+
+        /* Media Queries para Tablets y Móviles */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 18px; /* Ajuste adicional para tablets */
+            }
+
+            nav a {
+                font-size: 12px; /* Ajuste adicional para tablets */
+            }
+
+            main img {
+                width: 100px; /* Ajuste adicional para tablets */
+            }
+
+            #metadata, #connections {
+                font-size: 14px; /* Ajuste adicional para tablets */
+            }
+
+            .social-media img {
+                width: 20px; /* Ajuste adicional para tablets */
+                height: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 16px; /* Ajuste adicional para móviles */
+            }
+
+            nav a {
+                font-size: 10px; /* Ajuste adicional para móviles */
+            }
+
+            main img {
+                width: 80px; /* Ajuste adicional para móviles */
+            }
+
+            #metadata, #connections {
+                font-size: 12px; /* Ajuste adicional para móviles */
+            }
+
+            .social-media img {
+                width: 18px; /* Ajuste adicional para móviles */
+                height: 18px;
+            }
         }
     </style>
 </head>
@@ -135,7 +187,7 @@
 
         <!-- Logotipo Centrado -->
         <div style="text-align: center; margin-top: 20px;">
-            <img src="logo.png" alt="Logotipo de RealyMedios Radio" style="width: 150px; height: auto;">
+            <img src="logo.png" alt="Logotipo de RealyMedios Radio">
         </div>
 
         <!-- Reproductor de Audio -->
@@ -160,7 +212,7 @@
             <a href="https://www.instagram.com/RealyMedios" target="_blank">
                 <img src="instagram.png" alt="Instagram"> Instagram: @RealyMedios
             </a>
-            <a href="https://www.tiktok.com/@realymediosradio?_t=ZM-8tzc3IWtNzR&_r=1" target="_blank">
+            <a href="https://www.tiktok.com/@RealyMediosRadio" target="_blank">
                 <img src="tiktok.png" alt="TikTok"> TikTok: @RealyMediosRadio
             </a>
             <a href="https://wa.me/04127047374" target="_blank">
