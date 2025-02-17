@@ -197,18 +197,30 @@
                 audioSource.src = trimmedUrl;
                 streamAudio.load(); // Carga el nuevo stream
                 console.log("URL cargada desde stream-url.txt:", trimmedUrl);
+
+                // Retorna la URL base para los metadatos
+                return trimmedUrl.replace('/stream', ''); // Elimina "/stream" de la URL
             } catch (error) {
                 console.error("Error al cargar la URL del stream:", error);
                 metadataDiv.textContent = "Error: No se pudo cargar la URL del stream.";
+                return null;
             }
         }
 
         // Función para obtener metadatos y número de conexiones usando un proxy CORS
-        async function fetchMetadataAndConnections() {
+        async function fetchMetadataAndConnections(baseUrl) {
+            if (!baseUrl) {
+                console.error("No hay una URL base válida para obtener los metadatos.");
+                return;
+            }
+
             try {
+                // Construir la URL completa para los metadatos
+                const metadataUrl = `${baseUrl}/status-json.xsl`;
+
                 // Usamos un proxy CORS para evitar problemas de seguridad
                 const proxyUrl = 'https://api.allorigins.win/get?url=';
-                const targetUrl = encodeURIComponent('https://calendars-sport-cardiff-jd.trycloudflare.com/status-json.xsl');
+                const targetUrl = encodeURIComponent(metadataUrl);
                 const response = await fetch(proxyUrl + targetUrl);
 
                 if (!response.ok) {
@@ -245,11 +257,15 @@
         });
 
         // Iniciar el mensaje, cargar la URL del stream y actualizar metadatos al cargar la página
-        window.onload = function () {
+        window.onload = async function () {
             mensajeAudio.play();
-            loadStreamUrl(); // Cargar la URL del stream desde el archivo
-            fetchMetadataAndConnections(); // Cargar metadatos y conexiones
-            setInterval(fetchMetadataAndConnections, 10000); // Actualizar cada 10 segundos
+
+            // Cargar la URL del stream y obtener la URL base para los metadatos
+            const baseUrl = await loadStreamUrl();
+            if (baseUrl) {
+                fetchMetadataAndConnections(baseUrl); // Cargar metadatos y conexiones
+                setInterval(() => fetchMetadataAndConnections(baseUrl), 10000); // Actualizar cada 10 segundos
+            }
         };
     </script>
 </body>
