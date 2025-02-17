@@ -207,7 +207,7 @@
             }
         }
 
-        // Función para obtener metadatos y número de conexiones usando un proxy CORS
+        // Función para obtener metadatos y número de conexiones
         async function fetchMetadataAndConnections(baseUrl) {
             if (!baseUrl) {
                 console.error("No hay una URL base válida para obtener los metadatos.");
@@ -218,24 +218,21 @@
                 // Construir la URL completa para los metadatos
                 const metadataUrl = `${baseUrl}/status-json.xsl`;
 
-                // Usamos un proxy CORS para evitar problemas de seguridad
-                const proxyUrl = 'https://api.allorigins.win/get?url=';
-                const targetUrl = encodeURIComponent(metadataUrl);
-                const response = await fetch(proxyUrl + targetUrl);
+                // Hacer la solicitud directamente sin proxy
+                const response = await fetch(metadataUrl, { mode: 'no-cors' });
 
                 if (!response.ok) {
                     throw new Error(`Error al cargar los metadatos (código ${response.status})`);
                 }
 
                 const data = await response.json();
-                const icecastData = JSON.parse(data.contents); // Parseamos el contenido del proxy
 
                 // Mostrar metadatos
-                const currentSong = icecastData.icestats.source.title || "Información no disponible";
+                const currentSong = data.icestats.source.title || "Información no disponible";
                 metadataDiv.textContent = `Ahora sonando: ${currentSong}`;
 
                 // Mostrar número de conexiones
-                const listenerCount = icecastData.icestats.source.listeners || 0;
+                const listenerCount = data.icestats.source.listeners || 0;
                 connectionsDiv.textContent = `Oyentes conectados: ${listenerCount}`;
             } catch (error) {
                 console.error("Error al obtener metadatos y conexiones:", error);
