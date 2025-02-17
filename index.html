@@ -196,6 +196,7 @@
                 // Asigna la URL al reproductor
                 audioSource.src = trimmedUrl;
                 streamAudio.load(); // Carga el nuevo stream
+                console.log("URL cargada desde stream-url.txt:", trimmedUrl);
             } catch (error) {
                 console.error("Error al cargar la URL del stream:", error);
                 metadataDiv.textContent = "Error: No se pudo cargar la URL del stream.";
