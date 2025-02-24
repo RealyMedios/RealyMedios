@@ -83,45 +83,6 @@
             width: 90%; /* Ancho del reproductor más largo */
             max-width: 600px; /* Ancho máximo para evitar que sea demasiado grande */
         }
-
-        /* Encuesta alineada a la izquierda */
-        #polls {
-            text-align: left; /* Alineación a la izquierda */
-            margin-left: 20px; /* Espacio desde el borde izquierdo */
-        }
-
-        /* Galería */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .gallery-item {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.05);
-        }
-
-        /* Podcasts */
-        .podcast-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .podcast-item {
-            background-color: #111; /* Fondo oscuro para los podcasts */
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(255, 165, 0, 0.3); /* Sombra con tono ocre */
-        }
     </style>
 </head>
 <body>
@@ -155,51 +116,6 @@
         <h2>Tu Radio Real</h2>
         <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
         <p><strong>En Periodo de Prueba...</strong></p>
-
-        <!-- Galería de fotos -->
-        <section id="gallery">
-            <h3>Galería de Fotos</h3>
-            <div class="photo-grid">
-                <img src="images/photo1.jpg" alt="Foto 1" class="gallery-item">
-                <img src="images/photo2.jpg" alt="Foto 2" class="gallery-item">
-                <img src="images/photo3.jpg" alt="Foto 3" class="gallery-item">
-                <!-- Agrega más imágenes aquí -->
-            </div>
-        </section>
-
-        <!-- Podcasts -->
-        <section id="podcasts">
-            <h3>Podcasts</h3>
-            <div class="podcast-list">
-                <div class="podcast-item">
-                    <h4>Episodio 1: Introducción a la Radio</h4>
-                    <audio controls>
-                        <source src="podcasts/episodio1.mp3" type="audio/mpeg">
-                        Tu navegador no soporta el reproductor de audio.
-                    </audio>
-                </div>
-                <div class="podcast-item">
-                    <h4>Episodio 2: Entrevista Especial</h4>
-                    <audio controls>
-                        <source src="podcasts/episodio2.mp3" type="audio/mpeg">
-                        Tu navegador no soporta el reproductor de audio.
-                    </audio>
-                </div>
-                <!-- Agrega más episodios aquí -->
-            </div>
-        </section>
-
-        <!-- Encuesta -->
-        <section id="polls">
-            <h3>Encuesta</h3>
-            <form id="poll-form" action="procesar-encuesta.php" method="POST">
-                <p>¿Qué tipo de música prefieres?</p>
-                <label><input type="radio" name="music" value="rock"> Rock</label><br>
-                <label><input type="radio" name="music" value="pop"> Pop</label><br>
-                <label><input type="radio" name="music" value="electronica"> Electrónica</label><br>
-                <button type="submit">Votar</button>
-            </form>
-        </section>
     </main>
 
     <!-- Pie de página -->
