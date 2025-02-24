@@ -216,6 +216,22 @@
         const metadataDiv = document.getElementById('metadata');
         const connectionsDiv = document.getElementById('connections');
 
+        // Reproductor de audio
+        const streamAudio = document.getElementById('streamAudio');
+        const audioSource = document.getElementById('audioSource');
+
+        // Función para iniciar la reproducción del mensaje.mp3
+        function playInitialMessage() {
+            audioSource.src = 'mensaje.mp3'; // Asignar el archivo de mensaje
+            streamAudio.load(); // Cargar el mensaje
+            streamAudio.play(); // Reproducir el mensaje
+
+            // Escuchar el evento "ended" para cambiar al stream cuando termine el mensaje
+            streamAudio.addEventListener('ended', () => {
+                loadStreamUrl(); // Conectar al stream después de que termine el mensaje
+            });
+        }
+
         // Cargar la URL del stream desde stream-url.txt
         async function loadStreamUrl() {
             try {
@@ -233,10 +249,9 @@
                 console.log("URL base después de quitar '/stream':", trimmedUrl);
 
                 // Asignar la URL al reproductor de audio
-                const audioSource = document.getElementById('audioSource');
-                const streamAudio = document.getElementById('streamAudio');
                 audioSource.src = `${trimmedUrl}/stream`; // Vuelve a agregar "/stream" para el reproductor
                 streamAudio.load(); // Carga el nuevo stream
+                streamAudio.play(); // Iniciar la reproducción del stream
                 console.log("URL cargada para el reproductor:", `${trimmedUrl}/stream`);
 
                 // Obtener metadatos y conexiones usando la URL base
@@ -305,11 +320,11 @@
 
         // Actualizar metadatos cada 30 segundos
         setInterval(() => {
-            loadStreamUrl(); // Recarga la URL del stream y actualiza los metadatos
+            fetchMetadataAndConnections(audioSource.src.split('/').slice(0, -1).join('/')); // Usar la URL base del stream
         }, 30000);
 
-        // Inicializar la carga del stream y los metadatos
-        loadStreamUrl();
+        // Inicializar la reproducción del mensaje y la carga del stream
+        playInitialMessage();
     </script>
 </body>
 </html>
