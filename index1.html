@@ -24,8 +24,9 @@
             width: 100%;
             z-index: 9999;
             display: flex;
-            align-items: center;
-            justify-content: space-between; /* Alineación entre logo y navegación */
+            flex-direction: column;
+            align-items: center; /* Centrar contenido de la cabecera */
+            text-align: center; /* Alinear texto al centro */
         }
 
         header img {
@@ -41,7 +42,7 @@
         nav {
             display: flex;
             gap: 20px;
-            margin-right: 20px; /* Espacio a la derecha para los enlaces */
+            margin-top: 10px; /* Espacio entre el logo y los enlaces */
         }
 
         nav a {
@@ -51,9 +52,8 @@
         }
 
         main {
-            margin-top: 120px; /* Espacio para el reproductor fijo */
+            margin-top: 200px; /* Espacio para el reproductor fijo */
             padding: 20px;
-            text-align: center; /* Centrar contenido principal */
         }
 
         footer {
@@ -63,17 +63,22 @@
             color: #FFA500; /* Texto ocre */
         }
 
-        /* Reproductor de audio centrado */
+        /* Reproductor de audio centrado en la cabecera */
         .media-player {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Centrar el reproductor */
+            margin-top: 10px; /* Espacio entre el título y el reproductor */
         }
 
         audio {
             background-color: #111; /* Fondo oscuro para el reproductor */
             color: #FFA500; /* Controles ocre */
-            margin-top: 20px;
+            width: 80%; /* Ancho del reproductor */
+            max-width: 400px; /* Ancho máximo para evitar que sea demasiado grande */
+        }
+
+        /* Encuesta alineada a la izquierda */
+        #polls {
+            text-align: left; /* Alineación a la izquierda */
+            margin-left: 20px; /* Espacio desde el borde izquierdo */
         }
 
         /* Galería */
@@ -122,14 +127,8 @@
             <a href="#">Acerca de</a>
             <a href="#">Contacto</a>
         </nav>
-    </header>
-
-    <main>
-        <h2>Tu Radio Real</h2>
-        <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
-
-        <!-- Reproductor de Audio -->
         <div class="media-player">
+            <!-- Reproductor de Audio -->
             <audio id="mensajeAudio" src="Mensaje.mp3"></audio>
             <audio id="streamAudio" controls autoplay>
                 <source id="audioSource" src="" type="audio/mpeg">
@@ -138,6 +137,11 @@
             <div id="metadata">Cargando información...</div>
             <div id="connections">Cargando número de conexiones...</div>
         </div>
+    </header>
+
+    <main>
+        <h2>Tu Radio Real</h2>
+        <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
 
         <!-- Galería de fotos -->
         <section id="gallery">
@@ -295,4 +299,3 @@
         loadStreamUrl();
     </script>
 </body>
-</html>
