@@ -5,258 +5,257 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RealyMedios Radio</title>
     <style>
-        /* Estilos generales */
+        /* Estilo General */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #000; /* Fondo negro */
-            color: #FFA500; /* Color ocre para el texto */
+            background-color: #121212; /* Fondo oscuro */
+            color: #FFD700; /* Amarillo ocre */
+            text-align: center;
         }
 
         header {
-            background-color: #000; /* Fondo negro */
-            color: #FFA500; /* Texto ocre */
-            box-shadow: 0 4px 6px rgba(255, 165, 0, 0.3); /* Sombra con tono ocre */
-            padding: 10px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 9999;
             display: flex;
-            flex-direction: column;
-            align-items: center; /* Centrar contenido verticalmente */
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #000000; /* Negro sólido */
         }
 
-        /* Contenedor para el logo y el título */
-        .header-top {
-            display: flex;
-            justify-content: space-between; /* Espacio entre logo/título y menú */
-            align-items: center; /* Alinear elementos verticalmente */
-            width: 100%;
-            max-width: 1200px; /* Ancho máximo para diseño responsivo */
-            margin: 0 auto; /* Centrar el contenedor */
-        }
-
-        .header-top img {
-            width: 80px; /* Tamaño del logo más grande */
+        header img {
+            width: 60px; /* Tamaño reducido para móviles */
             height: auto;
         }
 
-        h1 {
+        header h1 {
+            font-size: 20px; /* Tamaño reducido para móviles */
             margin: 0;
-            font-size: 24px; /* Tamaño reducido para la cabecera */
-        }
-
-        nav {
-            display: flex;
-            gap: 20px;
+            color: #FFD700; /* Amarillo ocre */
         }
 
         nav a {
+            color: #FFD700; /* Amarillo ocre */
             text-decoration: none;
-            color: #FFA500; /* Enlaces ocre */
+            margin: 0 10px;
             font-weight: bold;
+            font-size: 14px; /* Tamaño reducido para móviles */
+        }
+
+        nav a:hover {
+            color: #FFA500; /* Un tono más claro al pasar el mouse */
         }
 
         main {
-            margin-top: 200px; /* Espacio para el reproductor fijo */
-            padding: 20px;
-            text-align: center; /* Centrar contenido principal */
+            padding: 30px 15px; /* Padding reducido para móviles */
+        }
+
+        /* Estilo para el logotipo */
+        main img {
+            display: block;
+            margin: 0 auto; /* Centra el logotipo horizontalmente */
+            margin-bottom: 20px; /* Espacio entre el logotipo y el reproductor */
+            cursor: pointer; /* Indica que es clickeable */
+            width: 120px; /* Tamaño reducido para móviles */
+            height: auto;
+        }
+
+        /* Estilo para el reproductor de audio */
+        audio {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto; /* Centra el reproductor horizontalmente */
+            display: block;
+        }
+
+        /* Estilo para el control de volumen */
+        #volumeSlider {
+            width: 90%; /* Ancho ajustado para móviles */
+            max-width: 250px;
+            margin-top: 10px;
+        }
+
+        /* Estilo para los metadatos y conexiones */
+        #metadata, #connections {
+            margin-top: 15px;
+            font-size: 16px; /* Tamaño reducido para móviles */
+            font-weight: bold;
+            color: #FFD700; /* Amarillo ocre */
+        }
+
+        /* Estilo para las redes sociales */
+        .social-media {
+            margin-top: 20px;
+        }
+
+        .social-media a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #FFD700; /* Amarillo ocre */
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px; /* Tamaño reducido para móviles */
+        }
+
+        .social-media a:hover {
+            color: #FFA500; /* Un tono más claro al pasar el mouse */
+        }
+
+        .social-media img {
+            width: 25px; /* Tamaño reducido para móviles */
+            height: 25px;
+            margin-right: 5px;
+            vertical-align: middle;
         }
 
         footer {
+            background-color: #000000; /* Negro sólido */
+            color: #FFD700; /* Amarillo ocre */
             text-align: center;
-            padding: 20px;
-            background-color: #000; /* Fondo negro */
-            color: #FFA500; /* Texto ocre */
-        }
-
-        /* Reproductor de audio centrado en la cabecera */
-        .media-player {
-            margin-top: 10px; /* Espacio entre el título y el reproductor */
-        }
-
-        audio {
-            background-color: #111; /* Fondo oscuro para el reproductor */
-            color: #FFA500; /* Controles ocre */
-            width: 90%; /* Ancho del reproductor más largo */
-            max-width: 600px; /* Ancho máximo para evitar que sea demasiado grande */
-        }
-
-        /* Galería */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .gallery-item {
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
             width: 100%;
-            height: auto;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
+            font-size: 12px; /* Tamaño reducido para móviles */
         }
 
-        .gallery-item:hover {
-            transform: scale(1.05);
+        /* Media Queries para Tablets y Móviles */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 18px; /* Ajuste adicional para tablets */
+            }
+
+            nav a {
+                font-size: 12px; /* Ajuste adicional para tablets */
+            }
+
+            main img {
+                width: 100px; /* Ajuste adicional para tablets */
+            }
+
+            #metadata, #connections {
+                font-size: 14px; /* Ajuste adicional para tablets */
+            }
+
+            .social-media img {
+                width: 20px; /* Ajuste adicional para tablets */
+                height: 20px;
+            }
         }
 
-        /* Encuesta alineada a la izquierda */
-        #polls {
-            text-align: left; /* Alineación a la izquierda */
-            margin-left: 20px; /* Espacio desde el borde izquierdo */
-        }
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 16px; /* Ajuste adicional para móviles */
+            }
 
-        /* Podcasts */
-        .podcast-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+            nav a {
+                font-size: 10px; /* Ajuste adicional para móviles */
+            }
 
-        .podcast-item {
-            background-color: #111; /* Fondo oscuro para los podcasts */
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(255, 165, 0, 0.3); /* Sombra con tono ocre */
+            main img {
+                width: 80px; /* Ajuste adicional para móviles */
+            }
+
+            #metadata, #connections {
+                font-size: 12px; /* Ajuste adicional para móviles */
+            }
+
+            .social-media img {
+                width: 18px; /* Ajuste adicional para móviles */
+                height: 18px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Cabecera fija con reproductor -->
     <header>
-        <!-- Contenedor superior con logo, título y menú -->
-        <div class="header-top">
-            <div style="display: flex; align-items: center;">
-                <img src="logo.png" alt="Logotipo de RealyMedios Radio">
-                <h1>RealyMedios Radio</h1>
-            </div>
-            <nav>
-                <a href="#">Inicio</a>
-                <a href="#">Acerca de</a>
-                <a href="#">Contacto</a>
-            </nav>
+        <div style="display: flex; align-items: center;">
+            <img src="logo.png" alt="Logotipo de RealyMedios Radio">
+            <h1>RealyMedios Radio</h1>
         </div>
-        <div class="media-player">
-            <!-- Reproductor de Audio -->
-            <audio id="streamAudio" controls autoplay>
-                <source id="audioSource" src="" type="audio/mpeg">
-                Tu navegador no soporta el reproductor de audio.
-            </audio>
-            <div id="metadata">Cargando información...</div>
-            <div id="connections">Cargando número de conexiones...</div>
-        </div>
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#acerca">Acerca de</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
     </header>
 
     <main>
-        <!-- Texto centrado -->
-        <h2>Tu Radio Real</h2>
+        <h1>En Periodo de Prueba...</h1>
+        <h1>Tu Radio Real</h1>
         <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
-        <p><strong>En Periodo de Prueba...</strong></p>
 
-        <!-- Galería de fotos -->
-        <section id="gallery">
-            <h3>Galería de Fotos</h3>
-            <div class="photo-grid">
-                <img src="photo1.jpg" alt="Foto 1" class="gallery-item">
-                <img src="photo2.jpg" alt="Foto 2" class="gallery-item">
-                <img src="photo3.jpg" alt="Foto 3" class="gallery-item">
-                <!-- Agrega más imágenes aquí -->
-            </div>
-        </section>
+        <!-- Logotipo Centrado -->
+        <div style="text-align: center; margin-top: 20px;">
+            <img src="logo.png" alt="Logotipo de RealyMedios Radio">
+        </div>
 
-        <!-- Podcasts -->
-        <section id="podcasts">
-            <h3>Podcasts</h3>
-            <div class="podcast-list">
-                <div class="podcast-item">
-                    <h4>Episodio 1: Introducción a la Radio</h4>
-                    <audio controls>
-                        <source src="podcasts/episodio1.mp3" type="audio/mpeg">
-                        Tu navegador no soporta el reproductor de audio.
-                    </audio>
-                </div>
-                <div class="podcast-item">
-                    <h4>Episodio 2: Entrevista Especial</h4>
-                    <audio controls>
-                        <source src="podcasts/episodio2.mp3" type="audio/mpeg">
-                        Tu navegador no soporta el reproductor de audio.
-                    </audio>
-                </div>
-                <!-- Agrega más episodios aquí -->
-            </div>
-        </section>
+        <!-- Reproductor de Audio -->
+        <audio id="mensajeAudio" src="Mensaje.mp3"></audio>
+        <audio id="streamAudio" controls autoplay style="margin-top: 20px;">
+            <source id="audioSource" src="" type="audio/mpeg">
+            Tu navegador no soporta el reproductor de audio.
+        </audio>
 
-        <!-- Encuesta -->
-        <section id="polls">
-            <h3>Encuesta</h3>
-            <p>¿Qué tipo de música prefieres?</p>
-            <label>(Las opciones están disponibles en el formulario)</label>
-            <!-- Botón para abrir el formulario -->
-            <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScyeH-GJQJLeUcT5UgF-SeHkt1dhggmQzHQx77rK3YHdVa0VQ/viewform', '_blank')">Votar</button>
-        </section>
+        <!-- Control de Volumen -->
+        <div style="margin-top: 20px; text-align: center;">
+            <label for="volumeSlider">Volumen:</label>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+        </div>
+
+        <!-- Metadatos y Número de Conexiones -->
+        <div id="metadata">Cargando información...</div>
+        <div id="connections">Cargando número de conexiones...</div>
+
+        <!-- Redes Sociales -->
+        <div class="social-media">
+            <a href="https://www.instagram.com/RealyMedios" target="_blank">
+                <img src="instagram.png" alt="Instagram"> Instagram: @RealyMedios
+            </a>
+            <a href="https://www.tiktok.com/@RealyMediosRadio" target="_blank">
+                <img src="tiktok.png" alt="TikTok"> TikTok: @RealyMediosRadio
+            </a>
+            <a href="https://wa.me/04127047374" target="_blank">
+                <img src="whatsapp.png" alt="WhatsApp"> WhatsApp: 0412.7047374
+            </a>
+        </div>
     </main>
 
-    <!-- Pie de página -->
     <footer>
-        <p>Instagram: @RealyMedios</p>
-        <p>TikTok: @RealyMediosRadio</p>
-        <p>WhatsApp: 0412.7047374</p>
-        <p>© 2025 RealyMedios Radio. Todos los derechos reservados.</p>
+        &copy; 2025 RealyMedios Radio. Todos los derechos reservados.
     </footer>
 
-    <!-- JavaScript para cargar la URL del stream y obtener metadatos -->
     <script>
-        // Elementos HTML para mostrar metadatos
-        const metadataDiv = document.getElementById('metadata');
-        const connectionsDiv = document.getElementById('connections');
-
-        // Reproductor de audio
+        // Obtener los elementos de audio
+        const mensajeAudio = document.getElementById('mensajeAudio');
         const streamAudio = document.getElementById('streamAudio');
         const audioSource = document.getElementById('audioSource');
 
-        // Función para iniciar la reproducción del mensaje.mp3
-        function playInitialMessage() {
-            audioSource.src = 'Mensaje.mp3'; // Corregido: Mensaje.mp3 (con mayúscula)
-            streamAudio.load(); // Cargar el mensaje
-            streamAudio.play(); // Reproducir el mensaje
+        // Elementos para mostrar metadatos y conexiones
+        const metadataDiv = document.getElementById('metadata');
+        const connectionsDiv = document.getElementById('connections');
 
-            // Escuchar el evento "ended" para cambiar al stream cuando termine el mensaje
-            streamAudio.addEventListener('ended', () => {
-                loadStreamUrl(); // Conectar al stream después de que termine el mensaje
-            });
-        }
-
-        // Cargar la URL del stream desde stream-url.txt
+        // Función para cargar la URL del stream desde el archivo
         async function loadStreamUrl() {
             try {
-                const response = await fetch('stream-url.txt'); // Asegúrate de que este archivo exista en tu servidor
+                const response = await fetch('stream-url.txt'); // Lee el archivo stream-url.txt
                 if (!response.ok) {
-                    throw new Error(`Error al cargar stream-url.txt (código ${response.status})`);
+                    throw new Error(`Error al cargar el archivo (código ${response.status})`);
                 }
-                let data = await response.text();
-                let trimmedUrl = data.trim(); // Elimina espacios en blanco
+                const fileContent = await response.text(); // Obtiene el contenido del archivo
+                const trimmedUrl = fileContent.trim(); // Elimina espacios en blanco
 
-                // Quitar "/stream" de la URL si existe
-                if (trimmedUrl.endsWith('/stream')) {
-                    trimmedUrl = trimmedUrl.slice(0, -7); // Elimina los últimos 7 caracteres ("/stream")
-                }
-                console.log("URL base después de quitar '/stream':", trimmedUrl);
-
-                // Asignar la URL al reproductor de audio
-                audioSource.src = `${trimmedUrl}/stream`; // Vuelve a agregar "/stream" para el reproductor
+                // Asigna la URL al reproductor
+                audioSource.src = trimmedUrl;
                 streamAudio.load(); // Carga el nuevo stream
-                streamAudio.play(); // Iniciar la reproducción del stream
-                console.log("URL cargada para el reproductor:", `${trimmedUrl}/stream`);
+                console.log("URL cargada desde stream-url.txt:", trimmedUrl);
 
-                // Obtener metadatos y conexiones usando la URL base
-                fetchMetadataAndConnections(trimmedUrl);
+                // Retorna la URL base para los metadatos
+                return trimmedUrl.replace('/stream', ''); // Elimina "/stream" de la URL
             } catch (error) {
                 console.error("Error al cargar la URL del stream:", error);
-                metadataDiv.textContent = "No se pudo cargar la información.";
-                connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
+                metadataDiv.textContent = "Error: No se pudo cargar la URL del stream.";
+                return null;
             }
         }
 
@@ -266,6 +265,7 @@
                 console.error("No hay una URL base válida para obtener los metadatos.");
                 return;
             }
+
             try {
                 // Construir la URL completa para los metadatos
                 const metadataUrl = `${baseUrl}/status-json.xsl`;
@@ -273,9 +273,11 @@
 
                 // Hacer la solicitud directamente sin proxy
                 const response = await fetch(metadataUrl);
+
                 if (!response.ok) {
                     throw new Error(`Error al cargar los metadatos (código ${response.status})`);
                 }
+
                 const data = await response.json();
 
                 // Mostrar metadatos
@@ -289,39 +291,32 @@
                 console.error("Error al obtener metadatos y conexiones:", error);
                 metadataDiv.textContent = "No se pudo cargar la información.";
                 connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
-
-                // Intentar otro endpoint común si el primero falla
-                try {
-                    const fallbackUrl = `${baseUrl}/stats`;
-                    console.log("Intentando cargar metadatos desde fallback:", fallbackUrl);
-                    const fallbackResponse = await fetch(fallbackUrl);
-                    if (!fallbackResponse.ok) {
-                        throw new Error(`Error al cargar los metadatos del fallback (código ${fallbackResponse.status})`);
-                    }
-                    const fallbackData = await fallbackResponse.json();
-
-                    // Mostrar metadatos del fallback
-                    const fallbackSong = fallbackData.current_song || "Información no disponible";
-                    metadataDiv.textContent = `Ahora sonando: ${fallbackSong}`;
-
-                    // Mostrar número de conexiones del fallback
-                    const fallbackListeners = fallbackData.listeners || 0;
-                    connectionsDiv.textContent = `Oyentes conectados: ${fallbackListeners}`;
-                } catch (fallbackError) {
-                    console.error("Error al obtener metadatos del fallback:", fallbackError);
-                    metadataDiv.textContent = "No se pudo cargar la información.";
-                    connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
-                }
             }
         }
 
-        // Actualizar metadatos cada 30 segundos
-        setInterval(() => {
-            fetchMetadataAndConnections(audioSource.src.split('/').slice(0, -1).join('/')); // Usar la URL base del stream
-        }, 30000);
+        // Control de volumen
+        const volumeSlider = document.getElementById('volumeSlider');
+        volumeSlider.addEventListener('input', function () {
+            mensajeAudio.volume = volumeSlider.value;
+            streamAudio.volume = volumeSlider.value;
+        });
 
-        // Inicializar la reproducción del mensaje y la carga del stream
-        playInitialMessage();
+        // Cuando el mensaje termine, iniciar el stream
+        mensajeAudio.addEventListener('ended', function () {
+            streamAudio.play(); // Iniciar el stream después del mensaje
+        });
+
+        // Iniciar el mensaje, cargar la URL del stream y actualizar metadatos al cargar la página
+        window.onload = async function () {
+            mensajeAudio.play();
+
+            // Cargar la URL del stream y obtener la URL base para los metadatos
+            const baseUrl = await loadStreamUrl();
+            if (baseUrl) {
+                fetchMetadataAndConnections(baseUrl); // Cargar metadatos y conexiones
+                setInterval(() => fetchMetadataAndConnections(baseUrl), 10000); // Actualizar cada 10 segundos
+            }
+        };
     </script>
 </body>
 </html>
