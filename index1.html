@@ -25,11 +25,20 @@
             z-index: 9999;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centrar contenido de la cabecera */
-            text-align: center; /* Alinear texto al centro */
+            align-items: center; /* Centrar contenido verticalmente */
         }
 
-        header img {
+        /* Contenedor para el logo y el título */
+        .header-top {
+            display: flex;
+            justify-content: space-between; /* Espacio entre logo/título y menú */
+            align-items: center; /* Alinear elementos verticalmente */
+            width: 100%;
+            max-width: 1200px; /* Ancho máximo para diseño responsivo */
+            margin: 0 auto; /* Centrar el contenedor */
+        }
+
+        .header-top img {
             width: 80px; /* Tamaño del logo más grande */
             height: auto;
         }
@@ -42,7 +51,6 @@
         nav {
             display: flex;
             gap: 20px;
-            margin-top: 10px; /* Espacio entre el logo y los enlaces */
         }
 
         nav a {
@@ -118,15 +126,18 @@
 <body>
     <!-- Cabecera fija con reproductor -->
     <header>
-        <div style="display: flex; align-items: center;">
-            <img src="logo.png" alt="Logotipo de RealyMedios Radio">
-            <h1>RealyMedios Radio</h1>
+        <!-- Contenedor superior con logo, título y menú -->
+        <div class="header-top">
+            <div style="display: flex; align-items: center;">
+                <img src="logo.png" alt="Logotipo de RealyMedios Radio">
+                <h1>RealyMedios Radio</h1>
+            </div>
+            <nav>
+                <a href="#">Inicio</a>
+                <a href="#">Acerca de</a>
+                <a href="#">Contacto</a>
+            </nav>
         </div>
-        <nav>
-            <a href="#">Inicio</a>
-            <a href="#">Acerca de</a>
-            <a href="#">Contacto</a>
-        </nav>
         <div class="media-player">
             <!-- Reproductor de Audio -->
             <audio id="mensajeAudio" src="Mensaje.mp3"></audio>
@@ -299,3 +310,4 @@
         loadStreamUrl();
     </script>
 </body>
+</html>
