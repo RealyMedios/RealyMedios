@@ -198,15 +198,21 @@
                 if (!response.ok) {
                     throw new Error(`Error al cargar stream-url.txt (código ${response.status})`);
                 }
-                const data = await response.text();
-                const trimmedUrl = data.trim(); // Elimina espacios en blanco
+                let data = await response.text();
+                let trimmedUrl = data.trim(); // Elimina espacios en blanco
+
+                // Quitar "/stream" de la URL si existe
+                if (trimmedUrl.endsWith('/stream')) {
+                    trimmedUrl = trimmedUrl.slice(0, -7); // Elimina los últimos 7 caracteres ("/stream")
+                }
+                console.log("URL base después de quitar '/stream':", trimmedUrl);
 
                 // Asignar la URL al reproductor de audio
                 const audioSource = document.getElementById('audioSource');
                 const streamAudio = document.getElementById('streamAudio');
-                audioSource.src = trimmedUrl; // Asigna la URL al reproductor
+                audioSource.src = `${trimmedUrl}/stream`; // Vuelve a agregar "/stream" para el reproductor
                 streamAudio.load(); // Carga el nuevo stream
-                console.log("URL cargada desde stream-url.txt:", trimmedUrl);
+                console.log("URL cargada para el reproductor:", `${trimmedUrl}/stream`);
 
                 // Obtener metadatos y conexiones usando la URL base
                 fetchMetadataAndConnections(trimmedUrl);
@@ -225,7 +231,7 @@
             }
             try {
                 // Construir la URL completa para los metadatos
-                const metadataUrl = `${new URL(baseUrl).origin}/status-json.xsl`;
+                const metadataUrl = `${baseUrl}/status-json.xsl`;
                 console.log("Intentando cargar metadatos desde:", metadataUrl);
 
                 // Hacer la solicitud directamente sin proxy
@@ -249,7 +255,7 @@
 
                 // Intentar otro endpoint común si el primero falla
                 try {
-                    const fallbackUrl = `${new URL(baseUrl).origin}/stats`;
+                    const fallbackUrl = `${baseUrl}/stats`;
                     console.log("Intentando cargar metadatos desde fallback:", fallbackUrl);
                     const fallbackResponse = await fetch(fallbackUrl);
                     if (!fallbackResponse.ok) {
@@ -269,16 +275,3 @@
                     metadataDiv.textContent = "No se pudo cargar la información.";
                     connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
                 }
-            }
-        }
-
-        // Actualizar metadatos cada 30 segundos
-        setInterval(() => {
-            loadStreamUrl(); // Recarga la URL del stream y actualiza los metadatos
-        }, 30000);
-
-        // Inicializar la carga del stream y los metadatos
-        loadStreamUrl();
-    </script>
-</body>
-</html>
