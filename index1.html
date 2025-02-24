@@ -23,7 +23,15 @@
             top: 0;
             width: 100%;
             z-index: 9999;
-            text-align: center; /* Centrar contenido */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header img {
+            width: 50px; /* Tamaño del logo */
+            height: auto;
+            margin-right: 10px;
         }
 
         h1 {
@@ -34,8 +42,6 @@
         nav {
             display: flex;
             gap: 20px;
-            justify-content: center;
-            margin-top: 10px;
         }
 
         nav a {
@@ -94,12 +100,54 @@
             background-color: #111; /* Fondo oscuro para el reproductor */
             color: #FFA500; /* Controles ocre */
         }
+
+        /* Media Queries para Tablets y Móviles */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 18px; /* Ajuste adicional para tablets */
+            }
+            nav a {
+                font-size: 12px; /* Ajuste adicional para tablets */
+            }
+            main img {
+                width: 100px; /* Ajuste adicional para tablets */
+            }
+            #metadata, #connections {
+                font-size: 14px; /* Ajuste adicional para tablets */
+            }
+            .social-media img {
+                width: 20px; /* Ajuste adicional para tablets */
+                height: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 16px; /* Ajuste adicional para móviles */
+            }
+            nav a {
+                font-size: 10px; /* Ajuste adicional para móviles */
+            }
+            main img {
+                width: 80px; /* Ajuste adicional para móviles */
+            }
+            #metadata, #connections {
+                font-size: 12px; /* Ajuste adicional para móviles */
+            }
+            .social-media img {
+                width: 18px; /* Ajuste adicional para móviles */
+                height: 18px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Cabecera fija con reproductor -->
     <header>
-        <h1>RealyMedios Radio</h1>
+        <div style="display: flex; align-items: center;">
+            <img src="logo.png" alt="Logotipo de RealyMedios Radio">
+            <h1>RealyMedios Radio</h1>
+        </div>
         <nav>
             <a href="#">Inicio</a>
             <a href="#">Acerca de</a>
