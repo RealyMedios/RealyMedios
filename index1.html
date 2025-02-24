@@ -252,18 +252,23 @@
                 return;
             }
             try {
-                // Construir la URL completa para los metadatos
+           // Construir la URL completa para los metadatos
                 const metadataUrl = `${baseUrl}/status-json.xsl`;
                 console.log("Intentando cargar metadatos desde:", metadataUrl);
+
                 // Hacer la solicitud directamente sin proxy
                 const response = await fetch(metadataUrl);
+
                 if (!response.ok) {
                     throw new Error(`Error al cargar los metadatos (código ${response.status})`);
                 }
+
                 const data = await response.json();
+
                 // Mostrar metadatos
                 const currentSong = data.icestats.source.title || "Información no disponible";
                 metadataDiv.textContent = `Ahora sonando: ${currentSong}`;
+
                 // Mostrar número de conexiones
                 const listenerCount = data.icestats.source.listeners || 0;
                 connectionsDiv.textContent = `Oyentes conectados: ${listenerCount}`;
@@ -272,7 +277,7 @@
                 metadataDiv.textContent = "No se pudo cargar la información.";
                 connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
             }
-        }
+        
 
         // Actualizar metadatos cada 30 segundos
         setInterval(() => {
