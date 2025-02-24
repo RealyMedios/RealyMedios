@@ -160,10 +160,8 @@
                 <source id="audioSource" src="" type="audio/mpeg">
                 Tu navegador no soporta el reproductor de audio.
             </audio>
-            <div id="metadata">
-                <p><strong>Pista actual:</strong> <span id="current-track">Cargando información...</span></p>
-                <p><strong>Oyentes:</strong> <span id="listener-count">Cargando número de conexiones...</span></p>
-            </div>
+            <div id="metadata">Cargando información...</div>
+            <div id="connections">Cargando número de conexiones...</div>
         </div>
     </header>
 
@@ -226,11 +224,13 @@
         <p>© 2025 RealyMedios Radio. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- JavaScript para cargar la URL del stream -->
+    <!-- JavaScript para cargar la URL del stream y obtener metadatos -->
     <script>
         // Cargar la URL del stream desde stream-url.txt
         const audioSource = document.getElementById('audioSource');
         const streamAudio = document.getElementById('streamAudio');
+        const metadataDiv = document.getElementById('metadata');
+        const connectionsDiv = document.getElementById('connections');
 
         fetch('stream-url.txt') // Asegúrate de que este archivo exista en tu servidor
             .then(response => response.text())
@@ -239,23 +239,50 @@
                 audioSource.src = trimmedUrl; // Asigna la URL al reproductor
                 streamAudio.load(); // Carga el nuevo stream
                 console.log("URL cargada desde stream-url.txt:", trimmedUrl);
+
+                // Obtener metadatos y conexiones
+                fetchMetadataAndConnections(trimmedUrl);
             })
             .catch(error => console.error('Error al cargar la URL del stream:', error));
 
-        // Actualizar metadatos del stream
-        function updateMetadata() {
-            fetch('https://api.radiostream.com/metadata') // Reemplaza con la URL de tu API de metadatos
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('current-track').textContent = data.currentTrack || 'Desconocido';
-                    document.getElementById('listener-count').textContent = data.listeners || 'N/A';
-                })
-                .catch(error => console.error('Error al cargar metadatos:', error));
+        // Función para obtener metadatos y número de conexiones
+        async function fetchMetadataAndConnections(baseUrl) {
+            if (!baseUrl) {
+                console.error("No hay una URL base válida para obtener los metadatos.");
+                return;
+            }
+            try {
+                // Construir la URL completa para los metadatos
+                const metadataUrl = `${baseUrl}/status-json.xsl`;
+                console.log("Intentando cargar metadatos desde:", metadataUrl);
+                // Hacer la solicitud directamente sin proxy
+                const response = await fetch(metadataUrl);
+                if (!response.ok) {
+                    throw new Error(`Error al cargar los metadatos (código ${response.status})`);
+                }
+                const data = await response.json();
+                // Mostrar metadatos
+                const currentSong = data.icestats.source.title || "Información no disponible";
+                metadataDiv.textContent = `Ahora sonando: ${currentSong}`;
+                // Mostrar número de conexiones
+                const listenerCount = data.icestats.source.listeners || 0;
+                connectionsDiv.textContent = `Oyentes conectados: ${listenerCount}`;
+            } catch (error) {
+                console.error("Error al obtener metadatos y conexiones:", error);
+                metadataDiv.textContent = "No se pudo cargar la información.";
+                connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
+            }
         }
 
-        // Actualizar cada 30 segundos
-        setInterval(updateMetadata, 30000);
-        updateMetadata(); // Cargar al inicio
+        // Actualizar metadatos cada 30 segundos
+        setInterval(() => {
+            fetch('stream-url.txt')
+                .then(response => response.text())
+                .then(data => {
+                    const trimmedUrl = data.trim();
+                    fetchMetadataAndConnections(trimmedUrl);
+                });
+        }, 30000);
     </script>
 </body>
 </html>
