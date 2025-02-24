@@ -83,6 +83,20 @@
             width: 90%; /* Ancho del reproductor más largo */
             max-width: 600px; /* Ancho máximo para evitar que sea demasiado grande */
         }
+
+        /* Podcasts */
+        .podcast-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .podcast-item {
+            background-color: #111; /* Fondo oscuro para los podcasts */
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(255, 165, 0, 0.3); /* Sombra con tono ocre */
+        }
     </style>
 </head>
 <body>
@@ -116,6 +130,28 @@
         <h2>Tu Radio Real</h2>
         <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
         <p><strong>En Periodo de Prueba...</strong></p>
+
+        <!-- Podcasts -->
+        <section id="podcasts">
+            <h3>Podcasts</h3>
+            <div class="podcast-list">
+                <div class="podcast-item">
+                    <h4>Episodio 1: Introducción a la Radio</h4>
+                    <audio controls>
+                        <source src="podcasts/episodio1.mp3" type="audio/mpeg">
+                        Tu navegador no soporta el reproductor de audio.
+                    </audio>
+                </div>
+                <div class="podcast-item">
+                    <h4>Episodio 2: Entrevista Especial</h4>
+                    <audio controls>
+                        <source src="podcasts/episodio2.mp3" type="audio/mpeg">
+                        Tu navegador no soporta el reproductor de audio.
+                    </audio>
+                </div>
+                <!-- Agrega más episodios aquí -->
+            </div>
+        </section>
     </main>
 
     <!-- Pie de página -->
@@ -138,7 +174,7 @@
 
         // Función para iniciar la reproducción del mensaje.mp3
         function playInitialMessage() {
-            audioSource.src = 'Mensaje.mp3'; // Asignar el archivo de mensaje
+            audioSource.src = 'Mensaje.mp3'; // Corregido: Mensaje.mp3 (con mayúscula)
             streamAudio.load(); // Cargar el mensaje
             streamAudio.play(); // Reproducir el mensaje
 
