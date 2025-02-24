@@ -275,3 +275,16 @@
                     metadataDiv.textContent = "No se pudo cargar la información.";
                     connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
                 }
+            }
+        }
+
+        // Actualizar metadatos cada 30 segundos
+        setInterval(() => {
+            loadStreamUrl(); // Recarga la URL del stream y actualiza los metadatos
+        }, 30000);
+
+        // Inicializar la carga del stream y los metadatos
+        loadStreamUrl();
+    </script>
+</body>
+</html>
