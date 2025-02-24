@@ -25,13 +25,12 @@
             z-index: 9999;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-between; /* Alineación entre logo y navegación */
         }
 
         header img {
-            width: 50px; /* Tamaño del logo */
+            width: 80px; /* Tamaño del logo más grande */
             height: auto;
-            margin-right: 10px;
         }
 
         h1 {
@@ -42,6 +41,7 @@
         nav {
             display: flex;
             gap: 20px;
+            margin-right: 20px; /* Espacio a la derecha para los enlaces */
         }
 
         nav a {
@@ -53,6 +53,7 @@
         main {
             margin-top: 120px; /* Espacio para el reproductor fijo */
             padding: 20px;
+            text-align: center; /* Centrar contenido principal */
         }
 
         footer {
@@ -60,6 +61,19 @@
             padding: 20px;
             background-color: #000; /* Fondo negro */
             color: #FFA500; /* Texto ocre */
+        }
+
+        /* Reproductor de audio centrado */
+        .media-player {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centrar el reproductor */
+        }
+
+        audio {
+            background-color: #111; /* Fondo oscuro para el reproductor */
+            color: #FFA500; /* Controles ocre */
+            margin-top: 20px;
         }
 
         /* Galería */
@@ -94,12 +108,6 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(255, 165, 0, 0.3); /* Sombra con tono ocre */
         }
-
-        /* Reproductor de audio */
-        audio {
-            background-color: #111; /* Fondo oscuro para el reproductor */
-            color: #FFA500; /* Controles ocre */
-        }
     </style>
 </head>
 <body>
@@ -114,22 +122,22 @@
             <a href="#">Acerca de</a>
             <a href="#">Contacto</a>
         </nav>
+    </header>
+
+    <main>
+        <h2>Tu Radio Real</h2>
+        <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
+
+        <!-- Reproductor de Audio -->
         <div class="media-player">
-            <!-- Reproductor de Audio -->
             <audio id="mensajeAudio" src="Mensaje.mp3"></audio>
-            <audio id="streamAudio" controls autoplay style="margin-top: 20px;">
+            <audio id="streamAudio" controls autoplay>
                 <source id="audioSource" src="" type="audio/mpeg">
                 Tu navegador no soporta el reproductor de audio.
             </audio>
             <div id="metadata">Cargando información...</div>
             <div id="connections">Cargando número de conexiones...</div>
         </div>
-    </header>
-
-    <!-- Contenido principal -->
-    <main>
-        <h2>Tu Radio Real</h2>
-        <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
 
         <!-- Galería de fotos -->
         <section id="gallery">
