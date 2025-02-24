@@ -108,6 +108,20 @@
             text-align: left; /* Alineación a la izquierda */
             margin-left: 20px; /* Espacio desde el borde izquierdo */
         }
+
+        /* Podcasts */
+        .podcast-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .podcast-item {
+            background-color: #111; /* Fondo oscuro para los podcasts */
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(255, 165, 0, 0.3); /* Sombra con tono ocre */
+        }
     </style>
 </head>
 <body>
@@ -168,6 +182,28 @@
                 <input type="text" name="other_music"><br>
                 <button type="submit">Votar</button>
             </form>
+        </section>
+
+        <!-- Podcasts -->
+        <section id="podcasts">
+            <h3>Podcasts</h3>
+            <div class="podcast-list">
+                <div class="podcast-item">
+                    <h4>Episodio 1: Introducción a la Radio</h4>
+                    <audio controls>
+                        <source src="podcasts/episodio1.mp3" type="audio/mpeg">
+                        Tu navegador no soporta el reproductor de audio.
+                    </audio>
+                </div>
+                <div class="podcast-item">
+                    <h4>Episodio 2: Entrevista Especial</h4>
+                    <audio controls>
+                        <source src="podcasts/episodio2.mp3" type="audio/mpeg">
+                        Tu navegador no soporta el reproductor de audio.
+                    </audio>
+                </div>
+                <!-- Agrega más episodios aquí -->
+            </div>
         </section>
     </main>
 
