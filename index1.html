@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RealyMedios Radio</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000; /* Fondo negro */
+            color: #FFA500; /* Color ocre para el texto */
+        }
+
+        header {
+            background-color: #000; /* Fondo negro */
+            color: #FFA500; /* Texto ocre */
+            box-shadow: 0 4px 6px rgba(255, 165, 0, 0.3); /* Sombra con tono ocre */
+            padding: 10px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 9999;
+            text-align: center; /* Centrar contenido */
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px; /* Tamaño reducido para la cabecera */
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #FFA500; /* Enlaces ocre */
+            font-weight: bold;
+        }
+
+        main {
+            margin-top: 120px; /* Espacio para el reproductor fijo */
+            padding: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #000; /* Fondo negro */
+            color: #FFA500; /* Texto ocre */
+        }
+
+        /* Galería */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Podcasts */
+        .podcast-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .podcast-item {
+            background-color: #111; /* Fondo oscuro para los podcasts */
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(255, 165, 0, 0.3); /* Sombra con tono ocre */
+        }
+
+        /* Reproductor de audio */
+        audio {
+            background-color: #111; /* Fondo oscuro para el reproductor */
+            color: #FFA500; /* Controles ocre */
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabecera fija con reproductor -->
+    <header>
+        <h1>RealyMedios Radio</h1>
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="#">Acerca de</a>
+            <a href="#">Contacto</a>
+        </nav>
+        <div class="media-player">
+            <!-- Reproductor de Audio -->
+            <audio id="mensajeAudio" src="Mensaje.mp3"></audio>
+            <audio id="streamAudio" controls autoplay style="margin-top: 20px;">
+                <source id="audioSource" src="" type="audio/mpeg">
+                Tu navegador no soporta el reproductor de audio.
+            </audio>
+            <div id="metadata">
+                <p><strong>Pista actual:</strong> <span id="current-track">Cargando información...</span></p>
+                <p><strong>Oyentes:</strong> <span id="listener-count">Cargando número de conexiones...</span></p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+        <h2>Tu Radio Real</h2>
+        <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
+
+        <!-- Galería de fotos -->
+        <section id="gallery">
+            <h3>Galería de Fotos</h3>
+            <div class="photo-grid">
+                <img src="images/photo1.jpg" alt="Foto 1" class="gallery-item">
+                <img src="images/photo2.jpg" alt="Foto 2" class="gallery-item">
+                <img src="images/photo3.jpg" alt="Foto 3" class="gallery-item">
+                <!-- Agrega más imágenes aquí -->
+            </div>
+        </section>
+
+        <!-- Podcasts -->
+        <section id="podcasts">
+            <h3>Podcasts</h3>
+            <div class="podcast-list">
+                <div class="podcast-item">
+                    <h4>Episodio 1: Introducción a la Radio</h4>
+                    <audio controls>
+                        <source src="podcasts/episodio1.mp3" type="audio/mpeg">
+                        Tu navegador no soporta el reproductor de audio.
+                    </audio>
+                </div>
+                <div class="podcast-item">
+                    <h4>Episodio 2: Entrevista Especial</h4>
+                    <audio controls>
+                        <source src="podcasts/episodio2.mp3" type="audio/mpeg">
+                        Tu navegador no soporta el reproductor de audio.
+                    </audio>
+                </div>
+                <!-- Agrega más episodios aquí -->
+            </div>
+        </section>
+
+        <!-- Encuesta -->
+        <section id="polls">
+            <h3>Encuesta</h3>
+            <form id="poll-form" action="procesar-encuesta.php" method="POST">
+                <p>¿Qué tipo de música prefieres?</p>
+                <label><input type="radio" name="music" value="rock"> Rock</label><br>
+                <label><input type="radio" name="music" value="pop"> Pop</label><br>
+                <label><input type="radio" name="music" value="electronica"> Electrónica</label><br>
+                <button type="submit">Votar</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>Instagram: @RealyMedios</p>
+        <p>TikTok: @RealyMediosRadio</p>
+        <p>WhatsApp: 0412.7047374</p>
+        <p>© 2025 RealyMedios Radio. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- JavaScript para cargar la URL del stream -->
+    <script>
+        // Cargar la URL del stream desde stream-url.txt
+        const audioSource = document.getElementById('audioSource');
+        const streamAudio = document.getElementById('streamAudio');
+
+        fetch('stream-url.txt') // Asegúrate de que este archivo exista en tu servidor
+            .then(response => response.text())
+            .then(data => {
+                const trimmedUrl = data.trim(); // Elimina espacios en blanco
+                audioSource.src = trimmedUrl; // Asigna la URL al reproductor
+                streamAudio.load(); // Carga el nuevo stream
+                console.log("URL cargada desde stream-url.txt:", trimmedUrl);
+            })
+            .catch(error => console.error('Error al cargar la URL del stream:', error));
+
+        // Actualizar metadatos del stream
+        function updateMetadata() {
+            fetch('https://api.radiostream.com/metadata') // Reemplaza con la URL de tu API de metadatos
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('current-track').textContent = data.currentTrack || 'Desconocido';
+                    document.getElementById('listener-count').textContent = data.listeners || 'N/A';
+                })
+                .catch(error => console.error('Error al cargar metadatos:', error));
+        }
+
+        // Actualizar cada 30 segundos
+        setInterval(updateMetadata, 30000);
+        updateMetadata(); // Cargar al inicio
+    </script>
+</body>
+</html>
