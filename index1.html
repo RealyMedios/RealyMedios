@@ -251,8 +251,9 @@
                 console.error("No hay una URL base válida para obtener los metadatos.");
                 return;
             }
+
             try {
-           // Construir la URL completa para los metadatos
+                // Construir la URL completa para los metadatos
                 const metadataUrl = `${baseUrl}/status-json.xsl`;
                 console.log("Intentando cargar metadatos desde:", metadataUrl);
 
@@ -277,6 +278,7 @@
                 metadataDiv.textContent = "No se pudo cargar la información.";
                 connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
             }
+        }
         
 
         // Actualizar metadatos cada 30 segundos
