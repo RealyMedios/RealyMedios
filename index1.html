@@ -200,14 +200,15 @@
                 }
                 const data = await response.text();
                 const trimmedUrl = data.trim(); // Elimina espacios en blanco
+
+                // Asignar la URL al reproductor de audio
                 const audioSource = document.getElementById('audioSource');
                 const streamAudio = document.getElementById('streamAudio');
-
                 audioSource.src = trimmedUrl; // Asigna la URL al reproductor
                 streamAudio.load(); // Carga el nuevo stream
                 console.log("URL cargada desde stream-url.txt:", trimmedUrl);
 
-                // Obtener metadatos y conexiones
+                // Obtener metadatos y conexiones usando la URL base
                 fetchMetadataAndConnections(trimmedUrl);
             } catch (error) {
                 console.error("Error al cargar la URL del stream:", error);
@@ -224,8 +225,9 @@
             }
             try {
                 // Construir la URL completa para los metadatos
-                const metadataUrl = `${baseUrl}/status-json.xsl`;
+                const metadataUrl = `${new URL(baseUrl).origin}/status-json.xsl`;
                 console.log("Intentando cargar metadatos desde:", metadataUrl);
+
                 // Hacer la solicitud directamente sin proxy
                 const response = await fetch(metadataUrl);
                 if (!response.ok) {
@@ -244,6 +246,29 @@
                 console.error("Error al obtener metadatos y conexiones:", error);
                 metadataDiv.textContent = "No se pudo cargar la información.";
                 connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
+
+                // Intentar otro endpoint común si el primero falla
+                try {
+                    const fallbackUrl = `${new URL(baseUrl).origin}/stats`;
+                    console.log("Intentando cargar metadatos desde fallback:", fallbackUrl);
+                    const fallbackResponse = await fetch(fallbackUrl);
+                    if (!fallbackResponse.ok) {
+                        throw new Error(`Error al cargar los metadatos del fallback (código ${fallbackResponse.status})`);
+                    }
+                    const fallbackData = await fallbackResponse.json();
+
+                    // Mostrar metadatos del fallback
+                    const fallbackSong = fallbackData.current_song || "Información no disponible";
+                    metadataDiv.textContent = `Ahora sonando: ${fallbackSong}`;
+
+                    // Mostrar número de conexiones del fallback
+                    const fallbackListeners = fallbackData.listeners || 0;
+                    connectionsDiv.textContent = `Oyentes conectados: ${fallbackListeners}`;
+                } catch (fallbackError) {
+                    console.error("Error al obtener metadatos del fallback:", fallbackError);
+                    metadataDiv.textContent = "No se pudo cargar la información.";
+                    connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
+                }
             }
         }
 
