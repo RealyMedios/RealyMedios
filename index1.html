@@ -100,45 +100,6 @@
             background-color: #111; /* Fondo oscuro para el reproductor */
             color: #FFA500; /* Controles ocre */
         }
-
-        /* Media Queries para Tablets y Móviles */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 18px; /* Ajuste adicional para tablets */
-            }
-            nav a {
-                font-size: 12px; /* Ajuste adicional para tablets */
-            }
-            main img {
-                width: 100px; /* Ajuste adicional para tablets */
-            }
-            #metadata, #connections {
-                font-size: 14px; /* Ajuste adicional para tablets */
-            }
-            .social-media img {
-                width: 20px; /* Ajuste adicional para tablets */
-                height: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 16px; /* Ajuste adicional para móviles */
-            }
-            nav a {
-                font-size: 10px; /* Ajuste adicional para móviles */
-            }
-            main img {
-                width: 80px; /* Ajuste adicional para móviles */
-            }
-            #metadata, #connections {
-                font-size: 12px; /* Ajuste adicional para móviles */
-            }
-            .social-media img {
-                width: 18px; /* Ajuste adicional para móviles */
-                height: 18px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -226,24 +187,34 @@
 
     <!-- JavaScript para cargar la URL del stream y obtener metadatos -->
     <script>
-        // Cargar la URL del stream desde stream-url.txt
-        const audioSource = document.getElementById('audioSource');
-        const streamAudio = document.getElementById('streamAudio');
+        // Elementos HTML para mostrar metadatos
         const metadataDiv = document.getElementById('metadata');
         const connectionsDiv = document.getElementById('connections');
 
-        fetch('stream-url.txt') // Asegúrate de que este archivo exista en tu servidor
-            .then(response => response.text())
-            .then(data => {
+        // Cargar la URL del stream desde stream-url.txt
+        async function loadStreamUrl() {
+            try {
+                const response = await fetch('stream-url.txt'); // Asegúrate de que este archivo exista en tu servidor
+                if (!response.ok) {
+                    throw new Error(`Error al cargar stream-url.txt (código ${response.status})`);
+                }
+                const data = await response.text();
                 const trimmedUrl = data.trim(); // Elimina espacios en blanco
+                const audioSource = document.getElementById('audioSource');
+                const streamAudio = document.getElementById('streamAudio');
+
                 audioSource.src = trimmedUrl; // Asigna la URL al reproductor
                 streamAudio.load(); // Carga el nuevo stream
                 console.log("URL cargada desde stream-url.txt:", trimmedUrl);
 
                 // Obtener metadatos y conexiones
                 fetchMetadataAndConnections(trimmedUrl);
-            })
-            .catch(error => console.error('Error al cargar la URL del stream:', error));
+            } catch (error) {
+                console.error("Error al cargar la URL del stream:", error);
+                metadataDiv.textContent = "No se pudo cargar la información.";
+                connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
+            }
+        }
 
         // Función para obtener metadatos y número de conexiones
         async function fetchMetadataAndConnections(baseUrl) {
@@ -251,19 +222,15 @@
                 console.error("No hay una URL base válida para obtener los metadatos.");
                 return;
             }
-
             try {
                 // Construir la URL completa para los metadatos
                 const metadataUrl = `${baseUrl}/status-json.xsl`;
                 console.log("Intentando cargar metadatos desde:", metadataUrl);
-
                 // Hacer la solicitud directamente sin proxy
                 const response = await fetch(metadataUrl);
-
                 if (!response.ok) {
                     throw new Error(`Error al cargar los metadatos (código ${response.status})`);
                 }
-
                 const data = await response.json();
 
                 // Mostrar metadatos
@@ -279,17 +246,14 @@
                 connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
             }
         }
-        
 
         // Actualizar metadatos cada 30 segundos
         setInterval(() => {
-            fetch('stream-url.txt')
-                .then(response => response.text())
-                .then(data => {
-                    const trimmedUrl = data.trim();
-                    fetchMetadataAndConnections(trimmedUrl);
-                });
+            loadStreamUrl(); // Recarga la URL del stream y actualiza los metadatos
         }, 30000);
+
+        // Inicializar la carga del stream y los metadatos
+        loadStreamUrl();
     </script>
 </body>
 </html>
