@@ -13,7 +13,6 @@
             background-color: #000; /* Fondo negro */
             color: #FFA500; /* Color ocre para el texto */
         }
-
         header {
             background-color: #000; /* Fondo negro */
             color: #FFA500; /* Texto ocre */
@@ -27,7 +26,6 @@
             flex-direction: column;
             align-items: center; /* Centrar contenido verticalmente */
         }
-
         /* Contenedor para el logo y el título */
         .header-top {
             display: flex;
@@ -37,60 +35,50 @@
             max-width: 1200px; /* Ancho máximo para diseño responsivo */
             margin: 0 auto; /* Centrar el contenedor */
         }
-
         .header-top img {
             width: 80px; /* Tamaño del logo más grande */
             height: auto;
         }
-
         h1 {
             margin: 0;
             font-size: 24px; /* Tamaño reducido para la cabecera */
         }
-
         nav {
             display: flex;
             gap: 20px;
         }
-
         nav a {
             text-decoration: none;
             color: #FFA500; /* Enlaces ocre */
             font-weight: bold;
         }
-
         main {
             margin-top: 200px; /* Espacio para el reproductor fijo */
             padding: 20px;
             text-align: center; /* Centrar contenido principal */
         }
-
         footer {
             text-align: center;
             padding: 20px;
             background-color: #000; /* Fondo negro */
             color: #FFA500; /* Texto ocre */
         }
-
         /* Reproductor de audio centrado en la cabecera */
         .media-player {
             margin-top: 10px; /* Espacio entre el título y el reproductor */
         }
-
         audio {
             background-color: #111; /* Fondo oscuro para el reproductor */
             color: #FFA500; /* Controles ocre */
             width: 90%; /* Ancho del reproductor más largo */
             max-width: 600px; /* Ancho máximo para evitar que sea demasiado grande */
         }
-
         /* Galería */
         .photo-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
         }
-
         .gallery-item {
             width: 100%;
             height: auto;
@@ -98,24 +86,20 @@
             cursor: pointer;
             transition: transform 0.3s ease;
         }
-
         .gallery-item:hover {
             transform: scale(1.05);
         }
-
         /* Encuesta alineada a la izquierda */
         #polls {
             text-align: left; /* Alineación a la izquierda */
             margin-left: 20px; /* Espacio desde el borde izquierdo */
         }
-
         /* Podcasts */
         .podcast-list {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
-
         .podcast-item {
             background-color: #111; /* Fondo oscuro para los podcasts */
             padding: 15px;
@@ -149,13 +133,11 @@
             <div id="connections">Cargando número de conexiones...</div>
         </div>
     </header>
-
     <main>
         <!-- Texto centrado -->
         <h2>Tu Radio Real</h2>
         <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
         <p><strong>En Periodo de Prueba...</strong></p>
-
         <!-- Galería de fotos -->
         <section id="gallery">
             <h3>Galería de Fotos</h3>
@@ -166,7 +148,6 @@
                 <!-- Agrega más imágenes aquí -->
             </div>
         </section>
-
         <!-- Podcasts -->
         <section id="podcasts">
             <h3>Podcasts</h3>
@@ -185,8 +166,7 @@
                         Tu navegador no soporta el reproductor de audio.
                     </audio>
                 </div>
-                <!-- Agrega más episodios aquí -->
-                    <!-- Video agregado correctamente -->
+                <!-- Video agregado correctamente -->
                 <div class="podcast-item">
                     <h4>Episodio 3: Video Especial</h4>
                     <video controls>
@@ -194,8 +174,8 @@
                         Tu navegador no soporta el formato de video.
                     </video>
                 </div>
+            </div>
         </section>
-
         <!-- Encuesta -->
         <section id="polls">
             <h3>Encuesta</h3>
@@ -205,7 +185,6 @@
             <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScyeH-GJQJLeUcT5UgF-SeHkt1dhggmQzHQx77rK3YHdVa0VQ/viewform', '_blank')">Votar</button>
         </section>
     </main>
-
     <!-- Pie de página -->
     <footer>
         <p>Instagram: @RealyMedios</p>
@@ -213,29 +192,24 @@
         <p>WhatsApp: 0412.7047374</p>
         <p>© 2025 RealyMedios Radio. Todos los derechos reservados.</p>
     </footer>
-
     <!-- JavaScript para cargar la URL del stream y obtener metadatos -->
     <script>
         // Elementos HTML para mostrar metadatos
         const metadataDiv = document.getElementById('metadata');
         const connectionsDiv = document.getElementById('connections');
-
         // Reproductor de audio
         const streamAudio = document.getElementById('streamAudio');
         const audioSource = document.getElementById('audioSource');
-
         // Función para iniciar la reproducción del mensaje.mp3
         function playInitialMessage() {
             audioSource.src = 'Mensaje.mp3'; // Corregido: Mensaje.mp3 (con mayúscula)
             streamAudio.load(); // Cargar el mensaje
             streamAudio.play(); // Reproducir el mensaje
-
             // Escuchar el evento "ended" para cambiar al stream cuando termine el mensaje
             streamAudio.addEventListener('ended', () => {
                 loadStreamUrl(); // Conectar al stream después de que termine el mensaje
             });
         }
-
         // Cargar la URL del stream desde stream-url.txt
         async function loadStreamUrl() {
             try {
@@ -245,19 +219,16 @@
                 }
                 let data = await response.text();
                 let trimmedUrl = data.trim(); // Elimina espacios en blanco
-
                 // Quitar "/stream" de la URL si existe
                 if (trimmedUrl.endsWith('/stream')) {
                     trimmedUrl = trimmedUrl.slice(0, -7); // Elimina los últimos 7 caracteres ("/stream")
                 }
                 console.log("URL base después de quitar '/stream':", trimmedUrl);
-
                 // Asignar la URL al reproductor de audio
                 audioSource.src = `${trimmedUrl}/stream`; // Vuelve a agregar "/stream" para el reproductor
                 streamAudio.load(); // Carga el nuevo stream
                 streamAudio.play(); // Iniciar la reproducción del stream
                 console.log("URL cargada para el reproductor:", `${trimmedUrl}/stream`);
-
                 // Obtener metadatos y conexiones usando la URL base
                 fetchMetadataAndConnections(trimmedUrl);
             } catch (error) {
@@ -266,7 +237,6 @@
                 connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
             }
         }
-
         // Función para obtener metadatos y número de conexiones
         async function fetchMetadataAndConnections(baseUrl) {
             if (!baseUrl) {
@@ -277,18 +247,15 @@
                 // Construir la URL completa para los metadatos
                 const metadataUrl = `${baseUrl}/status-json.xsl`;
                 console.log("Intentando cargar metadatos desde:", metadataUrl);
-
                 // Hacer la solicitud directamente sin proxy
                 const response = await fetch(metadataUrl);
                 if (!response.ok) {
                     throw new Error(`Error al cargar los metadatos (código ${response.status})`);
                 }
                 const data = await response.json();
-
                 // Mostrar metadatos
                 const currentSong = data.icestats.source.title || "Información no disponible";
                 metadataDiv.textContent = `Ahora sonando: ${currentSong}`;
-
                 // Mostrar número de conexiones
                 const listenerCount = data.icestats.source.listeners || 0;
                 connectionsDiv.textContent = `Oyentes conectados: ${listenerCount}`;
@@ -296,7 +263,6 @@
                 console.error("Error al obtener metadatos y conexiones:", error);
                 metadataDiv.textContent = "No se pudo cargar la información.";
                 connectionsDiv.textContent = "No se pudo cargar el número de conexiones.";
-
                 // Intentar otro endpoint común si el primero falla
                 try {
                     const fallbackUrl = `${baseUrl}/stats`;
@@ -306,11 +272,9 @@
                         throw new Error(`Error al cargar los metadatos del fallback (código ${fallbackResponse.status})`);
                     }
                     const fallbackData = await fallbackResponse.json();
-
                     // Mostrar metadatos del fallback
                     const fallbackSong = fallbackData.current_song || "Información no disponible";
                     metadataDiv.textContent = `Ahora sonando: ${fallbackSong}`;
-
                     // Mostrar número de conexiones del fallback
                     const fallbackListeners = fallbackData.listeners || 0;
                     connectionsDiv.textContent = `Oyentes conectados: ${fallbackListeners}`;
@@ -321,12 +285,10 @@
                 }
             }
         }
-
         // Actualizar metadatos cada 30 segundos
         setInterval(() => {
             fetchMetadataAndConnections(audioSource.src.split('/').slice(0, -1).join('/')); // Usar la URL base del stream
         }, 30000);
-
         // Inicializar la reproducción del mensaje y la carga del stream
         playInitialMessage();
     </script>
