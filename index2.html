@@ -144,7 +144,7 @@
         }
 
         .carousel-item {
-            min-width: 200px;
+            min-width: calc(33.33% - 40px); /* Tres elementos visibles */
             height: auto;
             border-radius: 15px;
             overflow: hidden;
@@ -294,6 +294,38 @@
         <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
         <p><strong>En Periodo de Prueba...</strong></p>
 
+        <!-- Podcasts (carrusel) -->
+        <section id="podcasts">
+            <h3>Podcasts Recientes</h3>
+            <div class="carousel">
+                <div class="carousel-item">
+                    <h4>Episodio 1: Introducción a la Radio</h4>
+                    <iframe 
+                        src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO1" 
+                        frameborder="0" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="carousel-item">
+                    <h4>Episodio 2: Videos Podcast</h4>
+                    <iframe 
+                        src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO2" 
+                        frameborder="0" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="carousel-item">
+                    <h4>Episodio 3: Videos Podcast</h4>
+                    <iframe 
+                        src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO3" 
+                        frameborder="0" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <!-- Agrega más podcasts aquí -->
+            </div>
+        </section>
+
         <!-- Galería de fotos (carrusel) -->
         <section id="gallery">
             <h3>Galería de Fotos</h3>
@@ -305,69 +337,32 @@
             </div>
         </section>
 
-        <!-- Galería de videos (carrusel) -->
-        <section id="video-gallery">
-            <h3>Galería de Videos</h3>
+        <!-- Sección de videos (eventos destacados o detrás de cámaras) -->
+        <section id="videos">
+            <h3>Videos Destacados</h3>
             <div class="carousel">
                 <div class="carousel-item">
                     <iframe 
-                        src="https://www.youtube.com/embed/cx8XB2yHk-M?si" 
+                        src="https://www.youtube.com/embed/VIDEO_ID_EVENTO1" 
                         frameborder="0" 
                         allowfullscreen>
                     </iframe>
                 </div>
                 <div class="carousel-item">
                     <iframe 
-                        src="https://www.youtube.com/embed/VIDEO_ID_2" 
+                        src="https://www.youtube.com/embed/VIDEO_ID_EVENTO2" 
                         frameborder="0" 
                         allowfullscreen>
                     </iframe>
                 </div>
                 <div class="carousel-item">
                     <iframe 
-                        src="https://www.youtube.com/embed/VIDEO_ID_3" 
+                        src="https://www.youtube.com/embed/VIDEO_ID_EVENTO3" 
                         frameborder="0" 
                         allowfullscreen>
                     </iframe>
                 </div>
                 <!-- Agrega más videos aquí -->
-            </div>
-        </section>
-
-        <!-- Podcasts -->
-        <section id="podcasts">
-            <h3>Podcasts Recientes</h3>
-            <div class="podcast-list">
-                <div class="podcast-item">
-                    <h4>Episodio 1: Introducción a la Radio</h4>
-                    <iframe 
-                        width="100%" 
-                        height="315" 
-                        src="https://www.youtube.com/embed/cx8XB2yHk-M?si" 
-                        frameborder="0" 
-                        allowfullscreen>
-                    </iframe>
-                </div>
-                <div class="podcast-item">
-                    <h4>Episodio 2: Videos Podcast</h4>
-                    <iframe 
-                        width="100%" 
-                        height="315" 
-                        src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO2" 
-                        frameborder="0" 
-                        allowfullscreen>
-                    </iframe>
-                </div>
-                <div class="podcast-item">
-                    <h4>Episodio 3: Videos Podcast</h4>
-                    <iframe 
-                        width="100%" 
-                        height="315" 
-                        src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO3" 
-                        frameborder="0" 
-                        allowfullscreen>
-                    </iframe>
-                </div>
             </div>
         </section>
 
