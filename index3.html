@@ -396,6 +396,10 @@
           playButton.style.display = 'none';
           pauseButton.style.display = 'block'; // Mostrar el botón de pausa
         },
+        onpause: () => {
+          playButton.style.display = 'block';
+          pauseButton.style.display = 'none';
+        },
         onloaderror: () => {
           console.error('Error al cargar el stream');
           hideConnectingMessage(); // Ocultar mensaje en caso de error
