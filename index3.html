@@ -54,14 +54,15 @@
     }
 
     .media-controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
+      position: relative;
+      display: inline-block;
       margin-top: 20px;
     }
 
     .media-controls button {
+      position: absolute;
+      top: 0;
+      left: 0;
       background: var(--accent-color);
       color: white;
       border: none;
@@ -71,6 +72,15 @@
       cursor: pointer;
       font-size: 24px;
       transition: transform 0.3s ease, background 0.3s ease;
+      z-index: 1;
+    }
+
+    .media-controls button.play {
+      display: block;
+    }
+
+    .media-controls button.pause {
+      display: none;
     }
 
     .media-controls button:hover {
@@ -209,9 +219,8 @@
   <!-- Reproductor -->
   <div class="media-player">
     <div class="media-controls">
-      <button id="playButton">▶️</button>
-      <button id="pauseButton" disabled>⏸️</button>
-      <button id="muteButton">🔇</button>
+      <button id="playButton" class="play">▶️</button>
+      <button id="pauseButton" class="pause" style="display: none;">⏸️</button>
     </div>
     <div id="metadata">Cargando información...</div>
     <div id="connections">Cargando número de conexiones...</div>
@@ -227,8 +236,8 @@
       <h3>Podcasts Recientes</h3>
       <div class="carousel">
         <div class="carousel-item">
-          <h4>Episodio 1: Introducción a la Radio</h4>
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO1" frameborder="0" allowfullscreen></iframe>
+          <h4>Episodio 1: Videos Podcast</h4>
+          <iframe src="https://www.youtube.com/embed/cx8XB2yHk-M?si" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="carousel-item">
           <h4>Episodio 2: Videos Podcast</h4>
@@ -292,7 +301,6 @@
     const connectionsDiv = document.getElementById('connections');
     const playButton = document.getElementById('playButton');
     const pauseButton = document.getElementById('pauseButton');
-    const muteButton = document.getElementById('muteButton');
 
     // URL del stream y mensaje inicial
     const streamUrl = 'https://stream.realymedio.online/stream';
@@ -300,10 +308,12 @@
 
     // Crear una instancia de Howler.js
     let sound = null;
-    let isMuted = false;
 
     // Función para iniciar la reproducción del mensaje inicial
     function playInitialMessage() {
+      if (sound) {
+        sound.unload(); // Limpiar cualquier sonido previo
+      }
       sound = new Howl({
         src: [initialMessageUrl],
         html5: true, // Necesario para streaming
@@ -317,7 +327,7 @@
     // Función para cargar el stream principal
     function loadStream() {
       if (sound) {
-        sound.unload(); // Detener y limpiar el mensaje inicial
+        sound.unload(); // Limpiar el mensaje inicial
       }
       sound = new Howl({
         src: [streamUrl],
@@ -326,12 +336,12 @@
           console.log('Stream cargado correctamente');
         },
         onplay: () => {
-          playButton.disabled = true;
-          pauseButton.disabled = false;
+          playButton.style.display = 'none';
+          pauseButton.style.display = 'block';
         },
         onpause: () => {
-          playButton.disabled = false;
-          pauseButton.disabled = true;
+          playButton.style.display = 'block';
+          pauseButton.style.display = 'none';
         }
       });
       sound.play();
@@ -361,24 +371,14 @@
 
     // Eventos de los botones
     playButton.addEventListener('click', () => {
-      if (!sound) {
-        playInitialMessage(); // Si no hay sonido, reproducir el mensaje inicial
-      } else {
-        sound.play();
-      }
+      playInitialMessage(); // Siempre reproduce el mensaje primero
     });
 
     pauseButton.addEventListener('click', () => {
       if (sound) {
-        sound.pause();
-      }
-    });
-
-    muteButton.addEventListener('click', () => {
-      if (sound) {
-        isMuted = !isMuted;
-        sound.mute(isMuted);
-        muteButton.textContent = isMuted ? '🔇' : '🔊';
+        sound.unload(); // Limpiar el buffer
+        playButton.style.display = 'block';
+        pauseButton.style.display = 'none';
       }
     });
 
