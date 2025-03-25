@@ -27,52 +27,103 @@
       font-family: 'Poppins', sans-serif;
       background: var(--gradient-bg);
       color: white;
+      overflow-x: hidden;
     }
 
     header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 9999;
+      background: var(--gradient-bg);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      animation: fadeInDown 1s ease-in-out;
+    }
+
+    .header-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px;
-      background: var(--secondary-color);
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    header img {
-      max-height: 80px;
+    .header-top img {
+      width: 80px;
+      height: auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
     }
 
     nav a {
-      color: white;
+      color: var(--primary-color);
       text-decoration: none;
-      margin-left: 20px;
-      font-weight: 600;
+      font-weight: bold;
+      position: relative;
+      transition: color 0.3s ease;
     }
 
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent-color);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+    }
+
+    nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* Reproductor multimedia */
     .media-player {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
       text-align: center;
-      margin-top: 20px;
     }
 
     .media-controls {
-      position: relative;
-      display: inline-block;
-      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
     }
 
     .media-controls button {
-      position: absolute;
-      top: 0;
-      left: 0;
       background: var(--accent-color);
       color: white;
       border: none;
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       cursor: pointer;
-      font-size: 24px;
+      font-size: 20px;
       transition: transform 0.3s ease, background 0.3s ease;
-      z-index: 1;
     }
 
     .media-controls button.play {
@@ -99,7 +150,7 @@
     }
 
     main {
-      margin-top: 50px;
+      margin-top: 200px;
       padding: 20px;
       text-align: center;
     }
@@ -123,7 +174,7 @@
     }
 
     .carousel-item {
-      min-width: calc(33.33% - 20px); /* Tres elementos visibles */
+      min-width: calc(33.33% - 40px); /* Tres elementos visibles */
       height: auto;
       border-radius: 15px;
       overflow: hidden;
@@ -133,7 +184,7 @@
 
     .carousel-item img {
       width: 100%;
-      height: 150px; /* Reducido el tamaño */
+      height: 100%;
       object-fit: cover;
       transition: transform 0.5s ease;
     }
@@ -144,7 +195,7 @@
 
     .carousel-item iframe {
       width: 100%;
-      height: 200px; /* Ajustado para pantallas pequeñas */
+      height: 150px;
       border-radius: 10px;
     }
 
@@ -166,6 +217,12 @@
 
     .podcast-item:hover {
       transform: translateY(-5px);
+    }
+
+    .podcast-item iframe {
+      width: 100%;
+      height: 315px;
+      border-radius: 10px;
     }
 
     /* Encuesta */
@@ -199,50 +256,59 @@
       text-align: center;
       padding: 20px;
       background: var(--gradient-bg);
+      color: var(--primary-color);
+      animation: fadeInUp 2s ease-in-out;
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header fijo con reproductor multimedia -->
   <header>
-    <div class="logo">
-      <img src="Logo.jpeg" alt="Logotipo de RealyMedios Radio">
-      <h1>RealyMedios Radio</h1>
+    <div class="header-top">
+      <div style="display: flex; align-items: center;">
+        <img src="Logo.jpeg" alt="Logotipo de RealyMedios Radio">
+        <h1>RealyMedios Radio</h1>
+      </div>
+      <nav>
+        <a href="#">Inicio</a>
+        <a href="#">Acerca de</a>
+        <a href="#">Contacto</a>
+      </nav>
     </div>
-    <nav>
-      <a href="#">Inicio</a>
-      <a href="#">Acerca de</a>
-      <a href="#">Contacto</a>
-    </nav>
+    <div class="media-player">
+      <div class="media-controls">
+        <button id="playButton" class="play">▶️</button>
+        <button id="pauseButton" class="pause" style="display: none;">⏸️</button>
+        <button id="muteButton">🔇</button>
+      </div>
+      <div id="metadata">Cargando información...</div>
+      <div id="connections">Cargando número de conexiones...</div>
+    </div>
   </header>
-
-  <!-- Reproductor -->
-  <div class="media-player">
-    <div class="media-controls">
-      <button id="playButton" class="play">▶️</button>
-      <button id="pauseButton" class="pause" style="display: none;">⏸️</button>
-    </div>
-    <div id="metadata">Cargando información...</div>
-    <div id="connections">Cargando número de conexiones...</div>
-  </div>
 
   <!-- Main -->
   <main>
     <h2>Tu Radio Real</h2>
     <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
+    <p><strong>En Periodo de Prueba...</strong></p>
 
     <!-- Podcasts (carrusel) -->
     <section id="podcasts">
       <h3>Podcasts Recientes</h3>
       <div class="carousel">
         <div class="carousel-item">
-          <h4>Episodio 1: Introducción a la Radio</h4>
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO1" frameborder="0" allowfullscreen></iframe>
+          <h4>Episodio 1: Video Podcast</h4>
+          <iframe src="https://www.youtube.com/embed/cx8XB2yHk-M?si" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="carousel-item">
           <h4>Episodio 2: Videos Podcast</h4>
           <iframe src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO2" frameborder="0" allowfullscreen></iframe>
         </div>
+        <div class="carousel-item">
+          <h4>Episodio 3: Videos Podcast</h4>
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO3" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!-- Agrega más podcasts aquí -->
       </div>
     </section>
 
@@ -259,6 +325,7 @@
         <div class="carousel-item">
           <img src="photo3.jpg" alt="Foto 3">
         </div>
+        <!-- Agrega más imágenes aquí -->
       </div>
     </section>
 
@@ -272,6 +339,10 @@
         <div class="carousel-item">
           <iframe src="https://www.youtube.com/embed/VIDEO_ID_EVENTO2" frameborder="0" allowfullscreen></iframe>
         </div>
+        <div class="carousel-item">
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_EVENTO3" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!-- Agrega más videos aquí -->
       </div>
     </section>
 
@@ -301,13 +372,15 @@
     const connectionsDiv = document.getElementById('connections');
     const playButton = document.getElementById('playButton');
     const pauseButton = document.getElementById('pauseButton');
+    const muteButton = document.getElementById('muteButton');
 
     // URL del stream y mensaje inicial
     const streamUrl = 'https://stream.realymedio.online/stream';
     const initialMessageUrl = 'Mensaje.mp3';
 
-    // Crear una instancia de Howler.js
+    // Crear una instancia única de Howler.js
     let sound = null;
+    let isMuted = false;
 
     // Función para iniciar la reproducción del mensaje inicial
     function playInitialMessage() {
@@ -379,6 +452,14 @@
         sound.unload(); // Limpiar el buffer
         playButton.style.display = 'block';
         pauseButton.style.display = 'none';
+      }
+    });
+
+    muteButton.addEventListener('click', () => {
+      if (sound) {
+        isMuted = !isMuted;
+        sound.mute(isMuted);
+        muteButton.textContent = isMuted ? '🔇' : '🔊';
       }
     });
 
