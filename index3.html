@@ -65,39 +65,6 @@
       color: var(--primary-color);
     }
 
-    nav {
-      display: flex;
-      gap: 20px;
-    }
-
-    nav a {
-      color: var(--primary-color);
-      text-decoration: none;
-      font-weight: bold;
-      position: relative;
-      transition: color 0.3s ease;
-    }
-
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--accent-color);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-
-    nav a:hover {
-      color: var(--accent-color);
-    }
-
-    nav a:hover::after {
-      transform: scaleX(1);
-    }
-
     /* Reproductor multimedia */
     .media-player {
       width: 100%;
@@ -150,7 +117,7 @@
     }
 
     main {
-      margin-top: 200px;
+      margin-top: 250px; /* Margen ajustado para separar del reproductor */
       padding: 20px;
       text-align: center;
     }
@@ -174,7 +141,8 @@
     }
 
     .carousel-item {
-      min-width: calc(33.33% - 40px); /* Tres elementos visibles */
+      min-width: calc(100% - 40px); /* Un solo elemento visible en móviles */
+      width: 100%; /* Ajuste para móviles */
       height: auto;
       border-radius: 15px;
       overflow: hidden;
@@ -184,7 +152,7 @@
 
     .carousel-item img {
       width: 100%;
-      height: 100%;
+      height: 200px; /* Altura ajustada para móviles */
       object-fit: cover;
       transition: transform 0.5s ease;
     }
@@ -195,7 +163,7 @@
 
     .carousel-item iframe {
       width: 100%;
-      height: 150px;
+      height: 250px; /* Altura ajustada para móviles */
       border-radius: 10px;
     }
 
@@ -256,8 +224,6 @@
       text-align: center;
       padding: 20px;
       background: var(--gradient-bg);
-      color: var(--primary-color);
-      animation: fadeInUp 2s ease-in-out;
     }
   </style>
 </head>
@@ -269,11 +235,6 @@
         <img src="Logo.jpeg" alt="Logotipo de RealyMedios Radio">
         <h1>RealyMedios Radio</h1>
       </div>
-      <nav>
-        <a href="#">Inicio</a>
-        <a href="#">Acerca de</a>
-        <a href="#">Contacto</a>
-      </nav>
     </div>
     <div class="media-player">
       <div class="media-controls">
