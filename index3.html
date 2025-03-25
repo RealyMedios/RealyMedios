@@ -111,9 +111,15 @@
       cursor: not-allowed;
     }
 
-    #metadata, #connections {
+    #metadata, #connections, #connecting-message {
       margin-top: 10px;
       font-size: 14px;
+    }
+
+    #connecting-message {
+      color: var(--accent-color);
+      font-weight: bold;
+      display: none; /* Oculto por defecto */
     }
 
     main {
@@ -244,6 +250,7 @@
       </div>
       <div id="metadata">Cargando información...</div>
       <div id="connections">Cargando número de conexiones...</div>
+      <div id="connecting-message">Conectando, por favor espere...</div>
     </div>
   </header>
 
@@ -334,6 +341,7 @@
     const playButton = document.getElementById('playButton');
     const pauseButton = document.getElementById('pauseButton');
     const muteButton = document.getElementById('muteButton');
+    const connectingMessage = document.getElementById('connecting-message');
 
     // URL del stream y mensaje inicial
     const streamUrl = 'https://stream.realymedio.online/stream';
@@ -343,8 +351,19 @@
     let sound = null;
     let isMuted = false;
 
+    // Función para mostrar el mensaje de conexión
+    function showConnectingMessage() {
+      connectingMessage.style.display = 'block'; // Mostrar el mensaje
+    }
+
+    // Función para ocultar el mensaje de conexión
+    function hideConnectingMessage() {
+      connectingMessage.style.display = 'none'; // Ocultar el mensaje
+    }
+
     // Función para iniciar la reproducción del mensaje inicial
     function playInitialMessage() {
+      showConnectingMessage(); // Mostrar mensaje de conexión
       if (sound) {
         sound.unload(); // Limpiar cualquier sonido previo
       }
@@ -368,66 +387,9 @@
         html5: true, // Necesario para streaming
         onload: () => {
           console.log('Stream cargado correctamente');
+          hideConnectingMessage(); // Ocultar mensaje de conexión
         },
         onplay: () => {
+          hideConnectingMessage(); // Ocultar mensaje de conexión
           playButton.style.display = 'none';
           pauseButton.style.display = 'block';
-        },
-        onpause: () => {
-          playButton.style.display = 'block';
-          pauseButton.style.display = 'none';
-        }
-      });
-      sound.play();
-    }
-
-    // Función para obtener metadatos y oyentes
-    async function fetchMetadataAndConnections(streamBaseUrl) {
-      try {
-        const response = await fetch(`${streamBaseUrl}/status-json.xsl`);
-        const data = await response.json();
-        const currentSong = data.icestats.source.title || 'Información no disponible';
-        const listenerCount = data.icestats.source.listeners || 0;
-
-        metadataDiv.textContent = `Ahora sonando: ${currentSong}`;
-        connectionsDiv.textContent = `Oyentes conectados: ${listenerCount}`;
-      } catch (error) {
-        console.error('Error al obtener metadatos y conexiones:', error);
-        metadataDiv.textContent = 'No se pudo cargar la información.';
-        connectionsDiv.textContent = 'No se pudo cargar el número de conexiones.';
-      }
-    }
-
-    // Actualizar metadatos cada 30 segundos
-    setInterval(() => {
-      fetchMetadataAndConnections(streamUrl.split('/').slice(0, -1).join('/'));
-    }, 30000);
-
-    // Eventos de los botones
-    playButton.addEventListener('click', () => {
-      playInitialMessage(); // Siempre reproduce el mensaje primero
-    });
-
-    pauseButton.addEventListener('click', () => {
-      if (sound) {
-        sound.unload(); // Limpiar el buffer
-        playButton.style.display = 'block';
-        pauseButton.style.display = 'none';
-      }
-    });
-
-    muteButton.addEventListener('click', () => {
-      if (sound) {
-        isMuted = !isMuted;
-        sound.mute(isMuted);
-        muteButton.textContent = isMuted ? '🔇' : '🔊';
-      }
-    });
-
-    // Iniciar la reproducción al cargar la página
-    window.onload = () => {
-      playInitialMessage();
-    };
-  </script>
-</body>
-</html>
