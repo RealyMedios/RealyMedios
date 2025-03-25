@@ -4,12 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RealyMedios Radio</title>
-  <!-- Fuentes -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- Estilos CSS -->
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: Arial, sans-serif;
       background: #1E1E1E;
       color: white;
       text-align: center;
@@ -37,6 +34,7 @@
   <button id="pauseButton" style="display: none;">⏸️ Pause</button>
   <div id="connecting-message">Conectando, por favor espere...</div>
 
+  <!-- Incluir Howler.js desde CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
   <script>
     // Elementos HTML
@@ -68,7 +66,7 @@
       }
       sound = new Howl({
         src: [initialMessageUrl],
-        html5: true,
+        html5: true, // Necesario para streaming
         onend: () => {
           loadStream(); // Al terminar el mensaje, cargar el stream principal
         },
@@ -87,7 +85,7 @@
       }
       sound = new Howl({
         src: [streamUrl],
-        html5: true,
+        html5: true, // Necesario para streaming
         onload: () => {
           console.log('Stream cargado correctamente');
         },
