@@ -343,100 +343,117 @@
     const muteButton = document.getElementById('muteButton');
     const connectingMessage = document.getElementById('connecting-message');
 
-    // URL del stream y mensaje inicial
+    // URL del stream
     const streamUrl = 'https://stream.realymedio.online/stream';
-    const initialMessageUrl = 'Mensaje.mp3';
 
     // Crear una instancia única de Howler.js
     let sound = null;
     let isMuted = false;
+    let isPlaying = false;
 
     // Función para mostrar el mensaje de conexión
     function showConnectingMessage() {
-      connectingMessage.style.display = 'block'; // Mostrar el mensaje
+      connectingMessage.style.display = 'block';
     }
 
     // Función para ocultar el mensaje de conexión
     function hideConnectingMessage() {
-      connectingMessage.style.display = 'none'; // Ocultar el mensaje
+      connectingMessage.style.display = 'none';
     }
 
-    // Función para iniciar la reproducción del mensaje inicial
-    function playInitialMessage() {
-      if (sound) {
-        sound.unload(); // Limpiar cualquier sonido previo
+    // Función para manejar el estado de conexión
+    function handleConnectionState(isConnected) {
+      if (isConnected) {
+        hideConnectingMessage();
+        playButton.style.display = 'none';
+        pauseButton.style.display = 'block';
+        isPlaying = true;
+      } else {
+        playButton.style.display = 'block';
+        pauseButton.style.display = 'none';
+        isPlaying = false;
       }
-      sound = new Howl({
-        src: [initialMessageUrl],
-        html5: true, // Necesario para streaming
-        onend: () => {
-          loadStream(); // Al terminar el mensaje, cargar el stream
-        },
-        onloaderror: () => {
-          console.error('Error al cargar el archivo Mensaje.mp3');
-          hideConnectingMessage(); // Ocultar mensaje en caso de error
-        }
-      });
-      sound.play();
     }
 
     // Función para cargar el stream principal
     function loadStream() {
+      // Mostrar mensaje de conexión
+      showConnectingMessage();
+      
+      // Si ya hay una instancia de sonido, la limpiamos
       if (sound) {
-        sound.unload(); // Limpiar el mensaje inicial
+        sound.unload();
       }
+
+      // Crear nueva instancia del reproductor
       sound = new Howl({
         src: [streamUrl],
         html5: true, // Necesario para streaming
-        onload: () => {
-          console.log('Stream cargado correctamente');
-        },
+        format: ['mp3', 'aac'],
         onplay: () => {
-          hideConnectingMessage(); // Ocultar mensaje de conexión
-          playButton.style.display = 'none';
-          pauseButton.style.display = 'block'; // Mostrar el botón de pausa
+          console.log('Reproducción iniciada');
+          handleConnectionState(true);
         },
-        onloaderror: () => {
-          console.error('Error al cargar el stream');
-          hideConnectingMessage(); // Ocultar mensaje en caso de error
+        onload: () => {
+          console.log('Stream cargado');
+        },
+        onloaderror: (id, error) => {
+          console.error('Error al cargar:', error);
+          handleConnectionState(false);
+        },
+        onplayerror: (id, error) => {
+          console.error('Error al reproducir:', error);
+          handleConnectionState(false);
+        },
+        onend: () => {
+          console.log('Reproducción terminada');
+          handleConnectionState(false);
+        },
+        onstop: () => {
+          console.log('Reproducción detenida');
+          handleConnectionState(false);
         }
       });
+
+      // Iniciar reproducción
       sound.play();
     }
 
     // Función para obtener metadatos y oyentes
-    async function fetchMetadataAndConnections(streamBaseUrl) {
+    async function fetchMetadataAndConnections() {
       try {
-        const response = await fetch(`${streamBaseUrl}/status-json.xsl`);
+        // Asegúrate de que la URL sea correcta para tu servidor Icecast
+        const response = await fetch('https://stream.realymedio.online/status-json.xsl');
         const data = await response.json();
-        const currentSong = data.icestats.source.title || 'Información no disponible';
-        const listenerCount = data.icestats.source.listeners || 0;
+        
+        if (data.icestats && data.icestats.source) {
+          const currentSong = data.icestats.source.title || 'Información no disponible';
+          const listenerCount = data.icestats.source.listeners || 0;
 
-        metadataDiv.textContent = `Ahora sonando: ${currentSong}`;
-        connectionsDiv.textContent = `Oyentes conectados: ${listenerCount}`;
+          metadataDiv.textContent = `Ahora sonando: ${currentSong}`;
+          connectionsDiv.textContent = `Oyentes conectados: ${listenerCount}`;
+        } else {
+          metadataDiv.textContent = 'Información no disponible';
+          connectionsDiv.textContent = 'Oyentes conectados: No disponible';
+        }
       } catch (error) {
-        console.error('Error al obtener metadatos y conexiones:', error);
-        metadataDiv.textContent = 'No se pudo cargar la información.';
-        connectionsDiv.textContent = 'No se pudo cargar el número de conexiones.';
+        console.error('Error al obtener metadatos:', error);
+        metadataDiv.textContent = 'Error al cargar información';
+        connectionsDiv.textContent = 'Error al cargar conexiones';
       }
     }
 
-    // Actualizar metadatos cada 30 segundos
-    setInterval(() => {
-      fetchMetadataAndConnections(streamUrl.split('/').slice(0, -1).join('/'));
-    }, 30000);
-
     // Eventos de los botones
     playButton.addEventListener('click', () => {
-      showConnectingMessage(); // Mostrar mensaje al presionar Play
-      playInitialMessage(); // Siempre reproduce el mensaje primero
+      if (!isPlaying) {
+        loadStream();
+      }
     });
 
     pauseButton.addEventListener('click', () => {
-      if (sound) {
-        sound.unload(); // Limpiar el buffer
-        playButton.style.display = 'block';
-        pauseButton.style.display = 'none';
+      if (sound && isPlaying) {
+        sound.stop();
+        handleConnectionState(false);
       }
     });
 
@@ -448,10 +465,13 @@
       }
     });
 
-    // Iniciar la reproducción al cargar la página
-    window.onload = () => {
-      // No reproducir automáticamente al cargar la página
-    };
+    // Actualizar metadatos cada 30 segundos
+    setInterval(fetchMetadataAndConnections, 30000);
+
+    // Cargar información inicial al cargar la página
+    window.addEventListener('load', () => {
+      fetchMetadataAndConnections();
+    });
   </script>
 </body>
 </html>
