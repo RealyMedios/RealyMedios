@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RealyMedios Radio | Diseño Moderno</title>
+  <title>RealyMedios Radio</title>
   <!-- Fuentes -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- Estilos CSS -->
@@ -370,7 +370,7 @@
         src: [initialMessageUrl],
         html5: true, // Necesario para streaming
         onend: () => {
-          loadStream(); // Al terminar el mensaje, cargar el stream
+          loadStream(); // Al terminar el mensaje, cargar el stream principal
         },
         onloaderror: () => {
           console.error('Error al cargar el archivo Mensaje.mp3');
@@ -392,7 +392,7 @@
           console.log('Stream cargado correctamente');
         },
         onplay: () => {
-          hideConnectingMessage(); // <-- Línea clave: Ocultar el mensaje aquí
+          hideConnectingMessage(); // Ocultar el mensaje cuando aparezca el botón de Pause
           playButton.style.display = 'none';
           pauseButton.style.display = 'block'; // Mostrar el botón de pausa
         },
@@ -433,7 +433,7 @@
     // Eventos de los botones
     playButton.addEventListener('click', () => {
       showConnectingMessage(); // Mostrar mensaje al presionar Play
-      playInitialMessage(); // Siempre reproduce el mensaje primero
+      playInitialMessage(); // Reproducir el mensaje inicial
     });
 
     pauseButton.addEventListener('click', () => {
@@ -451,11 +451,6 @@
         muteButton.textContent = isMuted ? '🔇' : '🔊';
       }
     });
-
-    // Iniciar la reproducción al cargar la página
-    window.onload = () => {
-      // No reproducir automáticamente al cargar la página
-    };
   </script>
 </body>
 </html>
