@@ -392,7 +392,7 @@
           console.log('Stream cargado correctamente');
         },
         onplay: () => {
-          hideConnectingMessage(); // Ocultar mensaje de conexión
+          hideConnectingMessage(); // <-- Línea clave: Ocultar el mensaje aquí
           playButton.style.display = 'none';
           pauseButton.style.display = 'block'; // Mostrar el botón de pausa
         },
@@ -438,7 +438,7 @@
 
     pauseButton.addEventListener('click', () => {
       if (sound) {
-        sound.unload(); // Limpiar el buffer
+        sound.pause(); // Pausar el stream
         playButton.style.display = 'block';
         pauseButton.style.display = 'none';
       }
