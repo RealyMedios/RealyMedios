@@ -24,12 +24,12 @@
     #connecting-message {
       color: orange;
       font-weight: bold;
-      display: none;
+      display: none; /* Oculto por defecto */
     }
   </style>
 </head>
 <body>
-  <h1>RealyMedios Radio</h1>
+  <h1>RealyMedios Radio ok</h1>
   <button id="playButton">▶️ Play</button>
   <button id="pauseButton" style="display: none;">⏸️ Pause</button>
   <div id="connecting-message">Conectando, por favor espere...</div>
@@ -46,7 +46,7 @@
     const streamUrl = 'https://stream.realymedio.online/stream';
     const initialMessageUrl = 'Mensaje.mp3';
 
-    // Instancia de Howler.js
+    // Crear una instancia única de Howler.js
     let sound = null;
 
     // Función para mostrar el mensaje de conexión
