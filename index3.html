@@ -3,50 +3,353 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RealyMedios Radio</title>
+  <title>RealyMedios Radio | Diseño Moderno</title>
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Estilos CSS -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #1E1E1E;
-      color: white;
-      text-align: center;
-      padding-top: 50px;
+    /* Variables globales */
+    :root {
+      --primary-color: #FFA500; /* Ocre vibrante */
+      --secondary-color: #1E1E1E; /* Negro profundo */
+      --accent-color: #FF4500; /* Naranja intenso */
+      --gradient-bg: linear-gradient(135deg, #1E1E1E, #000000);
     }
+
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--gradient-bg);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 9999;
+      background: var(--gradient-bg);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      animation: fadeInDown 1s ease-in-out;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header-top img {
+      width: 80px;
+      height: auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    /* Reproductor multimedia */
+    .media-player {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .media-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .media-controls button {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .media-controls button.play {
+      display: block;
+    }
+
+    .media-controls button.pause {
+      display: none;
+    }
+
+    .media-controls button:hover {
+      transform: scale(1.1);
+      background: var(--primary-color);
+    }
+
+    .media-controls button:disabled {
+      background: rgba(255, 255, 255, 0.2);
+      cursor: not-allowed;
+    }
+
+    #metadata, #connections, #connecting-message {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    #connecting-message {
+      color: var(--accent-color);
+      font-weight: bold;
+      display: none; /* Oculto por defecto */
+    }
+
+    main {
+      margin-top: 250px; /* Margen ajustado para separar del reproductor */
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* Carrusel para galerías y videos */
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 20px;
+      scroll-behavior: smooth;
+    }
+
+    .carousel::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .carousel::-webkit-scrollbar-thumb {
+      background: var(--accent-color);
+      border-radius: 10px;
+    }
+
+    .carousel-item {
+      min-width: calc(100% - 40px); /* Un solo elemento visible en móviles */
+      width: 100%; /* Ajuste para móviles */
+      height: auto;
+      border-radius: 15px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: 200px; /* Altura ajustada para móviles */
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .carousel-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .carousel-item iframe {
+      width: 100%;
+      height: 250px; /* Altura ajustada para móviles */
+      border-radius: 10px;
+    }
+
+    /* Podcasts */
+    .podcast-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .podcast-item {
+      background: rgba(255, 165, 0, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(255, 165, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .podcast-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .podcast-item iframe {
+      width: 100%;
+      height: 315px;
+      border-radius: 10px;
+    }
+
+    /* Encuesta */
+    #polls {
+      text-align: left;
+      margin: 40px auto;
+      max-width: 600px;
+      padding: 20px;
+      background: rgba(255, 165, 0, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(255, 165, 0, 0.2);
+      animation: fadeInLeft 1.5s ease-in-out;
+    }
+
     button {
-      background: orange;
+      background: var(--accent-color);
       color: white;
       border: none;
       padding: 10px 20px;
-      border-radius: 5px;
+      border-radius: 10px;
       cursor: pointer;
-      margin: 10px;
+      transition: background 0.3s ease;
     }
-    #connecting-message {
-      color: orange;
-      font-weight: bold;
-      display: none; /* Oculto por defecto */
+
+    button:hover {
+      background: var(--primary-color);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: var(--gradient-bg);
     }
   </style>
 </head>
 <body>
-  <h1>RealyMedios Radio te</h1>
-  <button id="playButton">▶️ Play</button>
-  <button id="pauseButton" style="display: none;">⏸️ Pause</button>
-  <div id="connecting-message">Conectando, por favor espere...</div>
+  <!-- Header fijo con reproductor multimedia -->
+  <header>
+    <div class="header-top">
+      <div style="display: flex; align-items: center;">
+        <img src="Logo.jpeg" alt="Logotipo de RealyMedios Radio">
+        <h1>RealyMedios Radio</h1>
+      </div>
+    </div>
+    <div class="media-player">
+      <div class="media-controls">
+        <button id="playButton" class="play">▶️</button>
+        <button id="pauseButton" class="pause" style="display: none;">⏸️</button>
+        <button id="muteButton">🔇</button>
+      </div>
+      <div id="metadata">Cargando información...</div>
+      <div id="connections">Cargando número de conexiones...</div>
+      <div id="connecting-message">Conectando, por favor espere...</div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <h2>Tu Radio Real</h2>
+    <p>Transmitiendo música variada las 24 horas del día para todos los oyentes.</p>
+    <p><strong>En Periodo de Prueba...</strong></p>
+
+    <!-- Podcasts (carrusel) -->
+    <section id="podcasts">
+      <h3>Podcasts Recientes</h3>
+      <div class="carousel">
+        <div class="carousel-item">
+          <h4>Episodio 1: Video Podcast</h4>
+          <iframe src="https://www.youtube.com/embed/cx8XB2yHk-M?si" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="carousel-item">
+          <h4>Episodio 2: Videos Podcast</h4>
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO2" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="carousel-item">
+          <h4>Episodio 3: Videos Podcast</h4>
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO3" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!-- Agrega más podcasts aquí -->
+      </div>
+    </section>
+
+    <!-- Galería de fotos (carrusel) -->
+    <section id="gallery">
+      <h3>Galería de Fotos</h3>
+      <div class="carousel">
+        <div class="carousel-item">
+          <img src="photo1.jpg" alt="Foto 1">
+        </div>
+        <div class="carousel-item">
+          <img src="photo2.jpg" alt="Foto 2">
+        </div>
+        <div class="carousel-item">
+          <img src="photo3.jpg" alt="Foto 3">
+        </div>
+        <!-- Agrega más imágenes aquí -->
+      </div>
+    </section>
+
+    <!-- Sección de videos (eventos destacados o detrás de cámaras) -->
+    <section id="videos">
+      <h3>Videos Destacados</h3>
+      <div class="carousel">
+        <div class="carousel-item">
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_EVENTO1" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="carousel-item">
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_EVENTO2" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="carousel-item">
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_EVENTO3" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!-- Agrega más videos aquí -->
+      </div>
+    </section>
+
+    <!-- Encuesta -->
+    <section id="polls">
+      <h3>Encuesta</h3>
+      <p>¿Qué tipo de música prefieres?</p>
+      <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScyeH-GJQJLeUcT5UgF-SeHkt1dhggmQzHQx77rK3YHdVa0VQ/viewform', '_blank')">Votar</button>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>Instagram: @RealyMedios</p>
+    <p>TikTok: @RealyMediosRadio</p>
+    <p>WhatsApp: 0412.7047374</p>
+    <p>© 2025 RealyMedios Radio. Todos los derechos reservados.</p>
+  </footer>
 
   <!-- Incluir Howler.js desde CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+
+  <!-- JavaScript para cargar la URL del stream y obtener metadatos -->
   <script>
-    // Elementos HTML
+    // Elementos HTML para mostrar metadatos y oyentes
+    const metadataDiv = document.getElementById('metadata');
+    const connectionsDiv = document.getElementById('connections');
     const playButton = document.getElementById('playButton');
     const pauseButton = document.getElementById('pauseButton');
+    const muteButton = document.getElementById('muteButton');
     const connectingMessage = document.getElementById('connecting-message');
 
-    // URL del stream
+    // URL del stream y mensaje inicial
     const streamUrl = 'https://stream.realymedio.online/stream';
+    const initialMessageUrl = 'Mensaje.mp3';
 
     // Crear una instancia única de Howler.js
     let sound = null;
+    let isMuted = false;
 
     // Función para mostrar el mensaje de conexión
     function showConnectingMessage() {
@@ -58,10 +361,29 @@
       connectingMessage.style.display = 'none'; // Ocultar el mensaje
     }
 
+    // Función para iniciar la reproducción del mensaje inicial
+    function playInitialMessage() {
+      if (sound) {
+        sound.unload(); // Limpiar cualquier sonido previo
+      }
+      sound = new Howl({
+        src: [initialMessageUrl],
+        html5: true, // Necesario para streaming
+        onend: () => {
+          loadStream(); // Al terminar el mensaje, cargar el stream
+        },
+        onloaderror: () => {
+          console.error('Error al cargar el archivo Mensaje.mp3');
+          hideConnectingMessage(); // Ocultar mensaje en caso de error
+        }
+      });
+      sound.play();
+    }
+
     // Función para cargar el stream principal
     function loadStream() {
       if (sound) {
-        sound.unload(); // Limpiar cualquier sonido previo
+        sound.unload(); // Limpiar el mensaje inicial
       }
       sound = new Howl({
         src: [streamUrl],
@@ -70,13 +392,9 @@
           console.log('Stream cargado correctamente');
         },
         onplay: () => {
-          hideConnectingMessage(); // Ocultar el mensaje cuando aparezca el botón de Pause
+          hideConnectingMessage(); // Ocultar mensaje de conexión
           playButton.style.display = 'none';
           pauseButton.style.display = 'block'; // Mostrar el botón de pausa
-        },
-        onpause: () => {
-          playButton.style.display = 'block';
-          pauseButton.style.display = 'none';
         },
         onloaderror: () => {
           console.error('Error al cargar el stream');
@@ -86,19 +404,54 @@
       sound.play();
     }
 
+    // Función para obtener metadatos y oyentes
+    async function fetchMetadataAndConnections(streamBaseUrl) {
+      try {
+        const response = await fetch(`${streamBaseUrl}/status-json.xsl`);
+        const data = await response.json();
+        const currentSong = data.icestats.source.title || 'Información no disponible';
+        const listenerCount = data.icestats.source.listeners || 0;
+
+        metadataDiv.textContent = `Ahora sonando: ${currentSong}`;
+        connectionsDiv.textContent = `Oyentes conectados: ${listenerCount}`;
+      } catch (error) {
+        console.error('Error al obtener metadatos y conexiones:', error);
+        metadataDiv.textContent = 'No se pudo cargar la información.';
+        connectionsDiv.textContent = 'No se pudo cargar el número de conexiones.';
+      }
+    }
+
+    // Actualizar metadatos cada 30 segundos
+    setInterval(() => {
+      fetchMetadataAndConnections(streamUrl.split('/').slice(0, -1).join('/'));
+    }, 30000);
+
     // Eventos de los botones
     playButton.addEventListener('click', () => {
       showConnectingMessage(); // Mostrar mensaje al presionar Play
-      loadStream(); // Cargar el stream principal
+      playInitialMessage(); // Siempre reproduce el mensaje primero
     });
 
     pauseButton.addEventListener('click', () => {
       if (sound) {
-        sound.pause(); // Pausar el stream
+        sound.unload(); // Limpiar el buffer
         playButton.style.display = 'block';
         pauseButton.style.display = 'none';
       }
     });
+
+    muteButton.addEventListener('click', () => {
+      if (sound) {
+        isMuted = !isMuted;
+        sound.mute(isMuted);
+        muteButton.textContent = isMuted ? '🔇' : '🔊';
+      }
+    });
+
+    // Iniciar la reproducción al cargar la página
+    window.onload = () => {
+      // No reproducir automáticamente al cargar la página
+    };
   </script>
 </body>
 </html>
