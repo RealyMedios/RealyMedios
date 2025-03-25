@@ -366,6 +366,9 @@
       if (sound) {
         sound.unload(); // Limpiar cualquier sonido previo
       }
+      
+      showConnectingMessage(); // Mostrar mensaje de conexión
+      
       sound = new Howl({
         src: [initialMessageUrl],
         html5: true, // Necesario para streaming
@@ -375,8 +378,10 @@
         onloaderror: () => {
           console.error('Error al cargar el archivo Mensaje.mp3');
           hideConnectingMessage(); // Ocultar mensaje en caso de error
+          alert('Error al conectar con la radio. Intente nuevamente.');
         }
       });
+      
       sound.play();
     }
 
@@ -385,6 +390,7 @@
       if (sound) {
         sound.unload(); // Limpiar el mensaje inicial
       }
+      
       sound = new Howl({
         src: [streamUrl],
         html5: true, // Necesario para streaming
@@ -392,15 +398,27 @@
           console.log('Stream cargado correctamente');
         },
         onplay: () => {
-          hideConnectingMessage(); // Ocultar mensaje de conexión
+          // Solo ocultar el mensaje cuando realmente comienza la reproducción
+          hideConnectingMessage();
           playButton.style.display = 'none';
           pauseButton.style.display = 'block'; // Mostrar el botón de pausa
         },
-        onloaderror: () => {
-          console.error('Error al cargar el stream');
+        onloaderror: (id, error) => {
+          console.error('Error al cargar el stream:', error);
           hideConnectingMessage(); // Ocultar mensaje en caso de error
+          playButton.style.display = 'block';
+          pauseButton.style.display = 'none';
+          alert('Error al conectar con la radio. Intente nuevamente.');
+        },
+        onplayerror: () => {
+          console.error('Error al reproducir el stream');
+          hideConnectingMessage(); // Ocultar mensaje en caso de error
+          playButton.style.display = 'block';
+          pauseButton.style.display = 'none';
+          alert('Error al reproducir la radio. Intente nuevamente.');
         }
       });
+      
       sound.play();
     }
 
@@ -428,8 +446,8 @@
 
     // Eventos de los botones
     playButton.addEventListener('click', () => {
-      showConnectingMessage(); // Mostrar mensaje al presionar Play
-      playInitialMessage(); // Siempre reproduce el mensaje primero
+      playButton.disabled = true; // Deshabilitar el botón para evitar múltiples clics
+      playInitialMessage(); // Reproducir el mensaje inicial
     });
 
     pauseButton.addEventListener('click', () => {
@@ -437,6 +455,7 @@
         sound.unload(); // Limpiar el buffer
         playButton.style.display = 'block';
         pauseButton.style.display = 'none';
+        playButton.disabled = false; // Volver a habilitar el botón play
       }
     });
 
