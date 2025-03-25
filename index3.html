@@ -55,7 +55,8 @@
 
     .media-controls {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       gap: 10px;
       margin-top: 20px;
     }
@@ -64,10 +65,11 @@
       background: var(--accent-color);
       color: white;
       border: none;
-      padding: 10px 20px;
-      border-radius: 10px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 24px;
       transition: transform 0.3s ease, background 0.3s ease;
     }
 
@@ -207,8 +209,9 @@
   <!-- Reproductor -->
   <div class="media-player">
     <div class="media-controls">
-      <button id="playButton">▶️ Play</button>
-      <button id="pauseButton" disabled>⏸️ Pause</button>
+      <button id="playButton">▶️</button>
+      <button id="pauseButton" disabled>⏸️</button>
+      <button id="muteButton">🔇</button>
     </div>
     <div id="metadata">Cargando información...</div>
     <div id="connections">Cargando número de conexiones...</div>
@@ -224,8 +227,8 @@
       <h3>Podcasts Recientes</h3>
       <div class="carousel">
         <div class="carousel-item">
-          <h4>Episodio 1: Videos Podcast</h4>
-          <iframe src="https://www.youtube.com/embed/cx8XB2yHk-M?si" frameborder="0" allowfullscreen></iframe>
+          <h4>Episodio 1: Introducción a la Radio</h4>
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_EPISODIO1" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="carousel-item">
           <h4>Episodio 2: Videos Podcast</h4>
@@ -289,6 +292,7 @@
     const connectionsDiv = document.getElementById('connections');
     const playButton = document.getElementById('playButton');
     const pauseButton = document.getElementById('pauseButton');
+    const muteButton = document.getElementById('muteButton');
 
     // URL del stream y mensaje inicial
     const streamUrl = 'https://stream.realymedio.online/stream';
@@ -296,6 +300,7 @@
 
     // Crear una instancia de Howler.js
     let sound = null;
+    let isMuted = false;
 
     // Función para iniciar la reproducción del mensaje inicial
     function playInitialMessage() {
@@ -366,6 +371,14 @@
     pauseButton.addEventListener('click', () => {
       if (sound) {
         sound.pause();
+      }
+    });
+
+    muteButton.addEventListener('click', () => {
+      if (sound) {
+        isMuted = !isMuted;
+        sound.mute(isMuted);
+        muteButton.textContent = isMuted ? '🔇' : '🔊';
       }
     });
 
