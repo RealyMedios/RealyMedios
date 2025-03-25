@@ -26,19 +26,13 @@
       font-weight: bold;
       display: none; /* Oculto por defecto */
     }
-    #playing-message {
-      color: lightgreen;
-      font-weight: bold;
-      display: none; /* Oculto por defecto */
-    }
   </style>
 </head>
 <body>
-  <h1>RealyMedios Radio mierda</h1>
+  <h1>RealyMedios Radio puto</h1>
   <button id="playButton">▶️ Play</button>
   <button id="pauseButton" style="display: none;">⏸️ Pause</button>
   <div id="connecting-message">Conectando, por favor espere...</div>
-  <div id="playing-message">Estoy reproduciendo</div>
 
   <!-- Incluir Howler.js desde CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
@@ -47,11 +41,9 @@
     const playButton = document.getElementById('playButton');
     const pauseButton = document.getElementById('pauseButton');
     const connectingMessage = document.getElementById('connecting-message');
-    const playingMessage = document.getElementById('playing-message');
 
-    // URLs del stream y mensaje inicial
+    // URL del stream
     const streamUrl = 'https://stream.realymedio.online/stream';
-    const initialMessageUrl = 'Mensaje.mp3';
 
     // Crear una instancia única de Howler.js
     let sound = null;
@@ -66,34 +58,10 @@
       connectingMessage.style.display = 'none'; // Ocultar el mensaje
     }
 
-    // Función para mostrar el mensaje "Estoy reproduciendo"
-    function showPlayingMessage() {
-      playingMessage.style.display = 'block'; // Mostrar el mensaje
-    }
-
-    // Función para iniciar la reproducción del mensaje inicial
-    function playInitialMessage() {
-      if (sound) {
-        sound.unload(); // Limpiar cualquier sonido previo
-      }
-      sound = new Howl({
-        src: [initialMessageUrl],
-        html5: true, // Necesario para streaming
-        onend: () => {
-          loadStream(); // Al terminar el mensaje, cargar el stream principal
-        },
-        onloaderror: () => {
-          console.error('Error al cargar el archivo Mensaje.mp3');
-          hideConnectingMessage(); // Ocultar mensaje en caso de error
-        }
-      });
-      sound.play();
-    }
-
     // Función para cargar el stream principal
     function loadStream() {
       if (sound) {
-        sound.unload(); // Limpiar el mensaje inicial
+        sound.unload(); // Limpiar cualquier sonido previo
       }
       sound = new Howl({
         src: [streamUrl],
@@ -102,8 +70,7 @@
           console.log('Stream cargado correctamente');
         },
         onplay: () => {
-          hideConnectingMessage(); // Ocultar el mensaje "Conectando..."
-          showPlayingMessage(); // Mostrar el mensaje "Estoy reproduciendo"
+          hideConnectingMessage(); // Ocultar el mensaje cuando aparezca el botón de Pause
           playButton.style.display = 'none';
           pauseButton.style.display = 'block'; // Mostrar el botón de pausa
         },
@@ -122,7 +89,7 @@
     // Eventos de los botones
     playButton.addEventListener('click', () => {
       showConnectingMessage(); // Mostrar mensaje al presionar Play
-      playInitialMessage(); // Reproducir el mensaje inicial
+      loadStream(); // Cargar el stream principal
     });
 
     pauseButton.addEventListener('click', () => {
