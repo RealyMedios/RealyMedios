@@ -92,7 +92,6 @@
       transition: 0.5s;
     }
 
-    /* PANEL DE NOTICIAS DUAL */
     .news-panel {
       background: #000000;
       border-radius: 12px;
@@ -164,7 +163,6 @@
       text-decoration: none;
     }
 
-    /* CONTROLES TÉCNICOS */
     .pro-controls {
       display: flex;
       justify-content: space-between;
@@ -202,7 +200,7 @@
     <h1 class="station-title">REALY<span>MEDIOS</span></h1>
     
     <div class="weather-row">
-      <span><i class="fas fa-broadcast-tower"></i> MIRANDA, VZLA</span>
+      <span><i class="fas fa-broadcast-tower"></i> GUARENAS, VZLA</span>
       <span><i class="fas fa-thermometer-half"></i> 28°C</span>
       <span style="color: var(--obs-blue); font-weight: bold;">● LIVE</span>
     </div>
@@ -213,7 +211,12 @@
     </div>
 
     <div class="video-container">
-      <iframe width="100%" height="100%" src="https://www.youtube.com/@RealymediosRadio/live" frameborder="0" allowfullscreen></iframe>
+      <iframe width="100%" height="100%" 
+        src="https://www.youtube.com/embed/8ujbY6mW58w?autoplay=1&mute=0" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
     </div>
 
     <div class="social-footer">
@@ -241,18 +244,16 @@
     let sportsIdx = 0;
     let cultureIdx = 0;
 
-    // Función Modo Foco
     function toggleFocus() {
       document.body.classList.toggle('focus-mode');
     }
 
-    // Monitor de Latencia Simulado
     setInterval(() => {
       const ping = Math.floor(Math.random() * (42 - 18 + 1) + 18);
-      document.getElementById('ping-val').innerText = ping;
+      const pingElement = document.getElementById('ping-val');
+      if(pingElement) pingElement.innerText = ping;
     }, 4000);
 
-    // Fetch de Noticias
     async function fetchAllNews() {
       const proxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
       const sportsRSS = encodeURIComponent('https://news.google.com/rss/search?q=venezuela+deportes&hl=es-419&gl=VE');
@@ -271,7 +272,8 @@
         
         rotateNews();
       } catch (e) {
-        document.getElementById('news-content').innerText = "CONECTANDO CON EL SERVIDOR DE NOTICIAS...";
+        const newsContent = document.getElementById('news-content');
+        if(newsContent) newsContent.innerText = "CONECTANDO CON EL SERVIDOR DE NOTICIAS...";
       }
     }
 
@@ -280,6 +282,8 @@
       const tag = document.getElementById('news-tag');
       const panel = document.getElementById('main-panel');
       
+      if(!content || !tag || !panel) return;
+
       content.classList.add('fade-out');
 
       setTimeout(() => {
