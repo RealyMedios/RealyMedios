@@ -1,531 +1,280 @@
 <!doctype html>
 <html lang="es">
- <head>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RealyMedios Radio | Tu Radio Real</title>
+  <title>RealyMedios Radio | Tu Radio Real 24/7</title>
+  
   <link rel="icon" type="image/jpeg" href="Logo.jpeg">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&amp;family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  
   <style>
     :root {
-      --primary-vibrant: #00A3FF;
-      --primary-dark: #0088CC;
-      --secondary-deep: #1A1B1E;
-      --secondary-light: #282A2F;
-      --accent-glow: #00A3FF;
-      --success-pulse: #00A3FF;
-      --text-bright: #F5F5F5;
-      --text-muted: #8E9196;
-      --border-glow: rgba(0, 163, 255, 0.3);
-      --bg-panel: #282A2F;
-      --bg-borders: #3A3C42;
+      --obs-blue: #00A3FF;
+      --obs-farandula: #FF00FF; 
+      --obs-bg: #0A0B0D;
+      --obs-border: #2D2F36;
+      --text: #FFFFFF;
+      --text-dim: #A0AEC0;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      width: 100%;
-    }
-
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: linear-gradient(135deg, #1A1B1E 0%, #282A2F 50%, #1A1B1E 100%);
-      color: var(--text-bright);
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(ellipse at 20% 50%, rgba(0, 163, 255, 0.05) 0%, transparent 50%),
-                  radial-gradient(ellipse at 80% 80%, rgba(0, 163, 255, 0.03) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    main {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-      min-height: 100%;
-    }
-
-    /* ===== PLAYER HERO ===== */
-    .player-hero {
-      width: 100%;
-      max-width: 500px;
-      background: linear-gradient(180deg, rgba(40, 42, 47, 0.8) 0%, rgba(26, 27, 30, 0.9) 100%);
-      border: 1px solid var(--border-glow);
-      border-radius: 32px;
-      padding: 60px 40px;
-      text-align: center;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 25px 80px rgba(0, 163, 255, 0.15),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      animation: slide-up 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    @keyframes slide-up {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .logo-display {
-      margin-bottom: 30px;
-    }
-
-    .logo-display img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 3px solid var(--primary-vibrant);
-      object-fit: cover;
-      box-shadow: 0 0 40px rgba(255, 107, 53, 0.4),
-                  inset 0 0 20px rgba(255, 107, 53, 0.2);
-      animation: float 3s ease-in-out infinite;
-    }
-
+    /* ANIMACIÓN SOLO PARA EL LOGO */
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-10px); }
     }
 
-    .station-title {
-      font-family: 'Lexend', sans-serif;
-      font-size: 2.5rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #00A3FF 0%, #0088CC 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 8px;
-      letter-spacing: -1px;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--obs-bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background-image: radial-gradient(circle at 50% 50%, #1a1c21 0%, #0A0B0D 100%);
+      padding: 20px;
     }
 
-    .station-subtitle {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 40px;
-      letter-spacing: 0.5px;
+    .player-hero {
+      width: 100%; max-width: 520px;
+      background: rgba(22, 24, 29, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--obs-border);
+      border-radius: 40px; padding: 30px;
+      text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.7);
     }
 
-    /* ===== PLAY BUTTON ===== */
-    .play-container {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 40px;
+    /* LOGO CON MOVIMIENTO FLOTANTE */
+    .logo-display img { 
+      width: 100px; height: 100px; border-radius: 50%; 
+      border: 3px solid var(--obs-blue); margin-bottom: 15px;
+      animation: float 3s ease-in-out infinite;
+      box-shadow: 0 0 20px rgba(0, 163, 255, 0.2);
     }
 
-    .play-ring {
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border: 2px solid var(--primary-vibrant);
-      border-radius: 50%;
-      opacity: 0;
-      animation: ring-pulse 2s ease-out infinite;
+    .station-title { font-weight: 900; font-size: 2rem; letter-spacing: -1.5px; margin-bottom: 5px; color: #FFF; text-transform: uppercase; }
+    .station-title span { color: var(--obs-blue); }
+
+    .weather-row { display: flex; justify-content: center; gap: 15px; font-size: 0.7rem; color: var(--text-dim); font-family: 'Roboto Mono', monospace; margin-bottom: 20px; }
+
+    .audio-interface { background: #000; border-radius: 25px; padding: 25px; margin-bottom: 20px; border: 1px solid var(--obs-border); }
+    
+    .btn-play {
+      width: 85px; height: 85px; background: var(--obs-blue); border: none; border-radius: 50%;
+      color: white; font-size: 2.2rem; cursor: pointer; transition: 0.3s; margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 163, 255, 0.3);
     }
+    .btn-play:disabled { opacity: 0.7; }
+    .btn-play:active { transform: scale(0.95); }
 
-    .play-ring:nth-child(2) {
-      animation-delay: 0.5s;
+    /* VOLUMEN CON LABELS (ICONO Y PORCENTAJE) */
+    .volume-box { 
+      display: flex; align-items: center; gap: 12px; 
+      background: rgba(255,255,255,0.03); padding: 12px 18px; 
+      border-radius: 15px; border: 1px solid rgba(255,255,255,0.05);
     }
+    .vol-icon { color: var(--obs-blue); font-size: 0.9rem; }
+    .vol-label { font-family: 'Roboto Mono', monospace; font-size: 0.75rem; color: var(--text-dim); min-width: 40px; text-align: right; }
+    
+    .volume-slider { flex: 1; height: 5px; -webkit-appearance: none; background: rgba(255,255,255,0.1); border-radius: 10px; cursor: pointer; }
+    .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--obs-blue); border-radius: 50%; }
 
-    @keyframes ring-pulse {
-      0% {
-        opacity: 0.8;
-        transform: scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(1.3);
-      }
-    }
+    /* BITÁCORA DE NOTICIAS */
+    .news-panel { background: #050505; border-radius: 18px; padding: 15px; margin-bottom: 25px; border-left: 4px solid var(--obs-blue); min-height: 110px; text-align: left; }
+    .news-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .news-category { font-family: 'Roboto Mono', monospace; font-size: 0.6rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+    .cat-deportes { background: rgba(0, 163, 255, 0.15); color: var(--obs-blue); }
+    .cat-farandula { background: rgba(255, 0, 255, 0.15); color: var(--obs-farandula); }
+    .news-date { font-family: 'Roboto Mono', monospace; font-size: 0.55rem; color: #555; }
+    #news-content { font-family: 'Outfit', sans-serif; font-size: 0.9rem; line-height: 1.3; color: #E2E8F0; transition: 0.5s; }
 
-    .play-btn {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #00A3FF 0%, #0088CC 100%);
-      border: none;
-      color: white;
-      font-size: 3rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 20px 60px rgba(0, 163, 255, 0.4),
-                  inset -2px -2px 8px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      position: relative;
-      z-index: 2;
-    }
+    /* SECCIONES MULTIMEDIA */
+    .section-box { margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--obs-border); text-align: left; }
+    .section-title { font-size: 0.75rem; font-family: 'Roboto Mono', monospace; color: var(--obs-blue); margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+    
+    .photo-display { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 15px; overflow: hidden; border: 1px solid var(--obs-border); margin-bottom: 10px; }
+    .photo-display img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    .thumb-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+    .thumb-img { min-width: 70px; height: 50px; border-radius: 8px; cursor: pointer; opacity: 0.4; overflow: hidden; border: 2px solid transparent; transition: 0.3s; }
+    .thumb-img.active { border-color: var(--obs-blue); opacity: 1; }
+    .thumb-img img { width: 100%; height: 100%; object-fit: cover; }
 
-    .play-btn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 25px 70px rgba(0, 163, 255, 0.5),
-                  inset -2px -2px 8px rgba(0, 0, 0, 0.3);
-    }
+    .video-display { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 15px; overflow: hidden; border: 1px solid var(--obs-border); margin-bottom: 10px; }
+    .video-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; }
+    .video-thumb { min-width: 95px; aspect-ratio: 16 / 9; border-radius: 6px; cursor: pointer; border: 2px solid transparent; background-size: cover; background-position: center; opacity: 0.6; transition: 0.3s; }
+    .video-thumb:hover { opacity: 1; border-color: var(--obs-blue); }
 
-    .play-btn:active {
-      transform: scale(0.96);
-    }
-
-    .play-btn.playing {
-      animation: btn-pulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes btn-pulse {
-      0%, 100% { box-shadow: 0 20px 60px rgba(0, 163, 255, 0.4), inset -2px -2px 8px rgba(0, 0, 0, 0.3); }
-      50% { box-shadow: 0 25px 80px rgba(0, 163, 255, 0.7), inset -2px -2px 8px rgba(0, 0, 0, 0.3); }
-    }
-
-    /* ===== STATUS & CONTROLS ===== */
-    .status-display {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--primary-vibrant);
-      margin-bottom: 20px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .status-display.live::before {
-      content: '';
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background: var(--success-pulse);
-      border-radius: 50%;
-      margin-right: 8px;
-      animation: blink 1.5s ease-in-out infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .controls-group {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      justify-content: center;
-      margin-top: 30px;
-      padding-top: 30px;
-      border-top: 1px solid rgba(0, 163, 255, 0.15);
-    }
-
-    .volume-control {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex: 1;
-      max-width: 180px;
-    }
-
-    .volume-icon {
-      color: var(--primary-vibrant);
-      font-size: 1.2rem;
-    }
-
-    .volume-slider {
-      width: 100%;
-      height: 3px;
-      border-radius: 2px;
-      background: rgba(0, 163, 255, 0.2);
-      outline: none;
-      -webkit-appearance: none;
-      appearance: none;
-      cursor: pointer;
-    }
-
-    .volume-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--primary-vibrant);
-      cursor: pointer;
-      box-shadow: 0 0 8px rgba(0, 163, 255, 0.5);
-      transition: all 0.2s ease;
-    }
-
-    .volume-slider::-webkit-slider-thumb:hover {
-      width: 18px;
-      height: 18px;
-      box-shadow: 0 0 15px rgba(0, 163, 255, 0.8);
-    }
-
-    .volume-slider::-moz-range-thumb {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--primary-vibrant);
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 0 8px rgba(0, 163, 255, 0.5);
-      transition: all 0.2s ease;
-    }
-
-    /* ===== SOCIAL BOTTOM ===== */
-    .social-footer {
-      margin-top: 50px;
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .social-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: rgba(0, 163, 255, 0.1);
-      border: 1.5px solid var(--primary-vibrant);
-      color: var(--primary-vibrant);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1.1rem;
-    }
-
-    .social-icon:hover {
-      background: var(--primary-vibrant);
-      color: white;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0, 163, 255, 0.3);
-    }
-
-    .feedback-btn {
-      background: linear-gradient(135deg, #00A3FF 0%, #0088CC 100%);
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 50px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 20px rgba(0, 163, 255, 0.3);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .feedback-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0, 163, 255, 0.4);
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .player-hero {
-        padding: 40px 25px;
-        max-width: 100%;
-      }
-
-      .station-title {
-        font-size: 2rem;
-      }
-
-      .play-btn {
-        width: 120px;
-        height: 120px;
-        font-size: 2.5rem;
-      }
-
-      .play-ring {
-        width: 150px;
-        height: 150px;
-      }
-
-      .volume-control {
-        width: 100%;
-      }
-
-      main {
-        padding: 20px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .player-hero {
-        padding: 30px 20px;
-        border-radius: 24px;
-      }
-
-      .station-title {
-        font-size: 1.6rem;
-      }
-
-      .logo-display img {
-        width: 80px;
-        height: 80px;
-      }
-
-      .play-btn {
-        width: 110px;
-        height: 110px;
-        font-size: 2rem;
-      }
-
-      .controls-group {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .volume-control {
-        width: 100%;
-      }
-    }
+    .social-footer { display: flex; gap: 15px; justify-content: center; margin-top: 25px; }
+    .social-btn { width: 42px; height: 42px; border-radius: 12px; background: #1A1D21; color: white; display: flex; align-items: center; justify-content: center; text-decoration: none; border: 1px solid var(--obs-border); transition: 0.3s; }
+    .social-btn:hover { border-color: var(--obs-blue); color: var(--obs-blue); }
+    .fade-out { opacity: 0; }
   </style>
-  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
-  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
-  <style>body { box-sizing: border-box; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
- </head>
- <body>
-  <main>
-   <div class="player-hero">
-    <div class="logo-display">
-     <img src="Logo.jpeg" alt="RealyMedia Logo">
+</head>
+<body>
+
+  <div class="player-hero">
+    <div class="logo-display"><img src="Logo.jpeg" alt="Logo"></div>
+    <h1 class="station-title">Realy<span>Medios</span> Radio</h1>
+    
+    <div class="weather-row">
+      <span><i class="fas fa-broadcast-tower"></i> MIRANDA, VZLA</span>
+      <span><i class="fas fa-clock"></i> <span id="local-time">--:--</span></span>
+      <span style="color: var(--obs-blue); font-weight: bold;">● EN VIVO</span>
     </div>
-    <h1 class="station-title">REALYMEDIA</h1>
-    <p class="station-subtitle">Tu Radio Real • 24/7</p>
-    <div class="play-container">
-     <div class="play-ring"></div>
-     <div class="play-ring"></div><button id="btnPlay" class="play-btn"> <i class="fas fa-play" id="icon"></i> </button>
+
+    <div class="audio-interface">
+      <button id="btnPlay" class="btn-play"><i class="fas fa-play" id="icon"></i></button>
+      <div class="volume-box">
+        <i class="fas fa-volume-up vol-icon"></i>
+        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="80">
+        <span class="vol-label" id="vol-pct">80%</span>
+      </div>
     </div>
-    <div class="status-display live" id="status">
-     EN VIVO
+
+    <div class="news-panel" id="main-panel">
+      <div class="news-meta">
+        <div id="news-tag" class="news-category cat-deportes">Sincronizando</div>
+        <div id="news-date" class="news-date">--/-- --:--</div>
+      </div>
+      <div id="news-content">Actualizando bitácora de noticias...</div>
     </div>
-    <div class="controls-group">
-     <div class="volume-control">
-      <i class="fas fa-volume-low volume-icon"></i> <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="70">
-     </div>
+
+    <div class="section-box">
+      <div class="section-title"><i class="fas fa-camera"></i> Galería de Eventos</div>
+      <div class="photo-display"><img id="main-photo" src="foto1.jpg"></div>
+      <div class="thumb-nav">
+        <div class="thumb-img active" onclick="changePhoto('foto1.jpg', this)"><img src="foto1.jpg"></div>
+        <div class="thumb-img" onclick="changePhoto('foto2.jpg', this)"><img src="foto2.jpg"></div>
+        <div class="thumb-img" onclick="changePhoto('parranda.jpg', this)"><img src="parranda.jpg"></div>
+      </div>
     </div>
+
+    <div class="section-box">
+      <div class="section-title"><i class="fas fa-video"></i> RealyMedios Clips</div>
+      <div class="video-display">
+        <iframe id="yt-player" width="100%" height="100%" src="https://www.youtube.com/embed/ID_VIDEO_1" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="video-nav">
+        <div class="video-thumb" style="background-image: url('https://img.youtube.com/vi/ID_VIDEO_1/mqdefault.jpg')" onclick="changeVideo('ID_VIDEO_1')"></div>
+        <div class="video-thumb" style="background-image: url('https://img.youtube.com/vi/ID_VIDEO_2/mqdefault.jpg')" onclick="changeVideo('ID_VIDEO_2')"></div>
+      </div>
+    </div>
+
     <div class="social-footer">
-     <button class="social-icon" onclick="window.open('https://instagram.com/realymedia', '_blank')" title="Instagram"> <i class="fab fa-instagram"></i> </button> <button class="social-icon" onclick="window.open('https://facebook.com/realymedia', '_blank')" title="Facebook"> <i class="fab fa-facebook"></i> </button> <button class="social-icon" onclick="window.open('https://tiktok.com/@realymedia', '_blank')" title="TikTok"> <i class="fab fa-tiktok"></i> </button> <button class="feedback-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScyeH-GJQJLeUcT5UgF-SeHkt1dhggmQzHQx77rK3YHdVa0VQ/viewform', '_blank')"> <i class="fas fa-paper-plane"></i> Feedback </button>
+      <a href="https://instagram.com/realymedios" class="social-btn"><i class="fab fa-instagram"></i></a>
+      <a href="https://tiktok.com/@realymedia" class="social-btn"><i class="fab fa-tiktok"></i></a>
     </div>
-   </div>
-  </main>
+  </div>
+
   <script>
     const streamUrl = 'https://stream.realymedio.online/stream';
     let sound = null;
     let isPlaying = false;
+    let currentVol = 0.8;
 
-    function initializeAudio() {
-      sound = new Howl({
-        src: [streamUrl],
-        html5: true,
-        volume: 0.7,
-        onplay: () => {
-          isPlaying = true;
-          updatePlayButton();
-          updateStatus('EN VIVO');
-        },
-        onstop: () => {
-          isPlaying = false;
-          updatePlayButton();
-          updateStatus('EN VIVO');
-        },
-        onload: () => {
-          console.log('Stream cargado correctamente');
-        },
-        onloaderror: (id, error) => {
-          console.error('Error cargando el stream:', error);
-          updateStatus('ERROR DE CONEXIÓN');
-        },
-        onfail: () => {
-          console.error('Error al reproducir');
-          updateStatus('ERROR DE REPRODUCCIÓN');
-        }
-      });
-    }
-
-    document.getElementById('btnPlay').addEventListener('click', () => {
-      if (!sound) {
-        updateStatus('CONECTANDO...');
-        initializeAudio();
-        setTimeout(() => {
-          sound.play();
-          isPlaying = true;
-          updatePlayButton();
-          updateStatus('EN VIVO');
-        }, 500);
-        return;
-      }
-
-      if (isPlaying) {
-        sound.pause();
-        isPlaying = false;
-        updatePlayButton();
-        updateStatus('EN PAUSA');
-      } else {
-        sound.play();
-        isPlaying = true;
-        updatePlayButton();
-        updateStatus('EN VIVO');
-      }
-    });
-
-    function updatePlayButton() {
-      const btn = document.getElementById('btnPlay');
+    // LÓGICA DE AUDIO (PLAY / STOP / UNLOAD)
+    function playAudio() {
       const icon = document.getElementById('icon');
+      const btn = document.getElementById('btnPlay');
+      icon.className = 'fas fa-spinner fa-spin';
+      btn.disabled = true;
 
-      if (isPlaying) {
-        icon.classList.remove('fa-play');
-        icon.classList.add('fa-pause');
-        btn.classList.add('playing');
-      } else {
-        icon.classList.remove('fa-pause');
-        icon.classList.add('fa-play');
-        btn.classList.remove('playing');
-      }
+      if (sound) { sound.unload(); }
+
+      sound = new Howl({
+        src: [streamUrl + '?t=' + Date.now()], 
+        html5: true, format: ['mp3'], volume: currentVol,
+        onplay: () => { isPlaying = true; icon.className = 'fas fa-pause'; btn.disabled = false; },
+        onstop: () => { isPlaying = false; icon.className = 'fas fa-play'; btn.disabled = false; },
+        onloaderror: () => { icon.className = 'fas fa-play'; btn.disabled = false; }
+      });
+      sound.play();
     }
 
-    function updateStatus(text) {
-      document.getElementById('status').textContent = text;
-    }
-
-    document.getElementById('volumeSlider').addEventListener('input', (e) => {
-      if (sound) {
-        sound.volume(e.target.value / 100);
-      }
+    document.getElementById('btnPlay').addEventListener('click', () => { 
+      if (!isPlaying) playAudio(); 
+      else { if (sound) { sound.stop(); sound.unload(); } isPlaying = false; document.getElementById('icon').className = 'fas fa-play'; }
     });
 
-    // Debug en consola
-    console.log('Stream URL:', streamUrl);
-    console.log('Howler cargado:', typeof Howl !== 'undefined');
+    // BARRA DE VOLUMEN
+    const volSlider = document.getElementById('volumeSlider');
+    const volLabel = document.getElementById('vol-pct');
+    volSlider.addEventListener('input', (e) => { 
+      const val = e.target.value;
+      currentVol = val / 100;
+      volLabel.innerText = val + '%';
+      if (sound) sound.volume(currentVol); 
+    });
+
+    // GALERÍAS
+    function changePhoto(src, el) {
+      const main = document.getElementById('main-photo');
+      main.style.opacity = 0;
+      setTimeout(() => {
+        main.src = src; main.style.opacity = 1;
+        document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+      }, 300);
+    }
+    function changeVideo(id) {
+      document.getElementById('yt-player').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+    }
+
+    // RELOJ
+    setInterval(() => {
+      document.getElementById('local-time').innerText = new Date().toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit', hour12: true });
+    }, 1000);
+
+    // BITÁCORA DE NOTICIAS ACTUALIZADA
+    let newsItems = [];
+    let currentIndex = 0;
+    async function fetchNews() {
+      const proxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
+      const urls = [
+        'https://news.google.com/rss/search?q=deportes+venezuela&hl=es-419&gl=VE',
+        'https://news.google.com/rss/search?q=farandula+venezuela&hl=es-419&gl=VE'
+      ];
+      try {
+        let loaded = [];
+        for (let url of urls) {
+          const res = await fetch(proxy + encodeURIComponent(url) + '&cache=' + Date.now());
+          const data = await res.json();
+          if(data.status === 'ok') {
+            data.items.forEach(item => {
+              loaded.push({ title: item.title.split(' - ')[0], date: item.pubDate, cat: url.includes('deportes') ? 'Deportes' : 'Farándula' });
+            });
+          }
+        }
+        newsItems = loaded;
+        if (currentIndex === 0 && newsItems.length > 0) rotateNews();
+      } catch (e) { console.error("Error al cargar noticias"); }
+    }
+
+    function rotateNews() {
+      if (newsItems.length === 0) return;
+      const content = document.getElementById('news-content');
+      const tag = document.getElementById('news-tag');
+      const dateEl = document.getElementById('news-date');
+      const panel = document.getElementById('main-panel');
+      content.classList.add('fade-out');
+      setTimeout(() => {
+        const item = newsItems[currentIndex];
+        const d = new Date(item.date);
+        tag.innerText = item.cat;
+        tag.className = "news-category " + (item.cat === 'Deportes' ? "cat-deportes" : "cat-farandula");
+        panel.style.borderLeftColor = (item.cat === 'Deportes' ? "var(--obs-blue)" : "var(--obs-farandula)");
+        dateEl.innerText = d.toLocaleDateString('es-VE') + " " + d.toLocaleTimeString('es-VE', {hour:'2-digit', minute:'2-digit', hour12:true});
+        content.innerText = item.title;
+        content.classList.remove('fade-out');
+        currentIndex = (currentIndex + 1) % newsItems.length;
+      }, 500);
+      setTimeout(rotateNews, 10000);
+    }
+    fetchNews();
+    setInterval(fetchNews, 600000); // Actualiza noticias cada 10 min
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e9267a113acdf2e',t:'MTc3NTY2MzE4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
