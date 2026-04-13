@@ -56,6 +56,11 @@
     .station-title { font-weight: 900; font-size: 2rem; letter-spacing: -1.5px; margin-bottom: 5px; color: #FFF; text-transform: uppercase; }
     .station-title span { color: var(--obs-blue); }
 
+    /* Estilo para Canción Actual */
+    .song-box { margin-bottom: 15px; min-height: 45px; }
+    .song-tag { font-family: 'Roboto Mono', monospace; font-size: 0.7rem; color: var(--obs-blue); text-transform: uppercase; display: block; }
+    #current-song { font-size: 0.95rem; font-weight: 700; color: #FFF; margin-top: 4px; transition: opacity 0.5s; }
+
     .weather-row { display: flex; justify-content: center; gap: 15px; font-size: 0.7rem; color: var(--text-dim); font-family: 'Roboto Mono', monospace; margin-bottom: 20px; }
 
     .audio-interface { background: #000; border-radius: 25px; padding: 25px; margin-bottom: 20px; border: 1px solid var(--obs-border); }
@@ -90,7 +95,9 @@
     .section-title { font-size: 0.75rem; font-family: 'Roboto Mono', monospace; color: var(--obs-blue); margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
     
     .photo-display { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 15px; overflow: hidden; border: 1px solid var(--obs-border); margin-bottom: 10px; }
-    .photo-display img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    /* Ajuste para fotos verticales */
+    .photo-display img { width: 100%; height: 100%; object-fit: contain; background: #000; transition: 0.5s; }
+    
     .thumb-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
     .thumb-img { min-width: 70px; height: 50px; border-radius: 8px; cursor: pointer; opacity: 0.4; overflow: hidden; border: 2px solid transparent; transition: 0.3s; }
     .thumb-img.active { border-color: var(--obs-blue); opacity: 1; }
@@ -123,13 +130,19 @@
     <div class="logo-display"><img src="Logo.jpeg" alt="Logo"></div>
     <h1 class="station-title">Realy<span>Medios</span> Radio</h1>
     
+   
     <div class="weather-row">
       <span><i class="fas fa-broadcast-tower"></i> MIRANDA, VZLA</span>
       <span><i class="fas fa-clock"></i> <span id="local-time">--:--</span></span>
       <span style="color: var(--obs-blue); font-weight: bold;">● EN VIVO</span>
     </div>
 
-    <div class="audio-interface">
+     <div class="song-box">
+      <span class="song-tag"><i class="fas fa-music"></i> Sonando ahora:</span>
+      <div id="current-song">Cargando...</div>
+    </div>
+	
+	<div class="audio-interface">
       <button id="btnPlay" class="btn-play"><i class="fas fa-play" id="icon"></i></button>
       <div class="volume-box">
         <i class="fas fa-volume-up vol-icon"></i>
@@ -151,8 +164,8 @@
       <div class="photo-display"><img id="main-photo" src="foto1.png"></div>
       <div class="thumb-nav">
         <div class="thumb-img active" onclick="changePhoto('foto1.png', this)"><img src="foto1.png"></div>
+        <div class="thumb-img" onclick="changePhoto('foto2.png', this)"><img src="foto2.png"></div>
         <div class="thumb-img" onclick="changePhoto('foto5.png', this)"><img src="foto5.png"></div>
-        <div class="thumb-img" onclick="changePhoto('foto.png', this)"><img src="foto.png"></div>
       </div>
     </div>
 
@@ -222,12 +235,31 @@
       }, 300);
     }
 
-    // FUNCIÓN PARA CAMBIAR VIDEO
     function changeVideo(id, el) {
       document.getElementById('yt-player').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
       document.querySelectorAll('.video-thumb').forEach(v => v.classList.remove('active'));
       el.classList.add('active');
     }
+
+    // ACTUALIZACIÓN DE CANCIÓN ACTUAL
+    async function updateCurrentSong() {
+        const songDisplay = document.getElementById('current-song');
+        try {
+            const res = await fetch('https://stream.realymedio.online/status-json.xsl');
+            const data = await res.json();
+            let title = "RealyMedios Radio";
+            if(data.icestats && data.icestats.source) {
+                const s = Array.isArray(data.icestats.source) ? data.icestats.source[0] : data.icestats.source;
+                title = s.title || title;
+            }
+            if(songDisplay.innerText !== title) {
+                songDisplay.style.opacity = 0;
+                setTimeout(() => { songDisplay.innerText = title; songDisplay.style.opacity = 1; }, 500);
+            }
+        } catch(e) { songDisplay.innerText = "Transmisión en Vivo"; }
+    }
+    setInterval(updateCurrentSong, 15000);
+    updateCurrentSong();
 
     setInterval(() => {
       document.getElementById('local-time').innerText = new Date().toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit', hour12: true });
