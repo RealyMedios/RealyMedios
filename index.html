@@ -1,99 +1,316 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Somos Parranda - Sistema de Repertorio</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            text-decoration: none;
-            text-align: center;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .btn-primary {
-            background: #007bff;
-            color: white;
-        }
-        .btn-success {
-            background: #28a745;
-            color: white;
-        }
-        .btn-warning {
-            background: #ffc107;
-            color: #333;
-        }
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-        }
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-        .footer {
-            margin-top: 30px;
-            font-size: 12px;
-            color: #999;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RealyMedios Radio | Tu Radio Real 24/7</title>
+  
+  <link rel="icon" type="image/jpeg" href="Logo.jpeg">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  
+  <style>
+    :root {
+      --obs-blue: #00A3FF;
+      --obs-farandula: #FF00FF; 
+      --obs-bg: #0A0B0D;
+      --obs-border: #2D2F36;
+      --text: #FFFFFF;
+      --text-dim: #A0AEC0;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--obs-bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background-image: radial-gradient(circle at 50% 50%, #1a1c21 0%, #0A0B0D 100%);
+      padding: 20px;
+    }
+
+    .player-hero {
+      width: 100%; max-width: 520px;
+      background: rgba(22, 24, 29, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--obs-border);
+      border-radius: 40px; padding: 30px;
+      text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+    }
+
+    .logo-display img { 
+      width: 100px; height: 100px; border-radius: 50%; 
+      border: 3px solid var(--obs-blue); margin-bottom: 15px;
+      animation: float 3s ease-in-out infinite;
+      box-shadow: 0 0 20px rgba(0, 163, 255, 0.2);
+    }
+
+    .station-title { font-weight: 900; font-size: 2rem; letter-spacing: -1.5px; margin-bottom: 5px; color: #FFF; text-transform: uppercase; }
+    .station-title span { color: var(--obs-blue); }
+
+    /* Estilo para Canción Actual */
+    .song-box { margin-bottom: 15px; min-height: 45px; }
+    .song-tag { font-family: 'Roboto Mono', monospace; font-size: 0.7rem; color: var(--obs-blue); text-transform: uppercase; display: block; }
+    #current-song { font-size: 0.95rem; font-weight: 700; color: #FFF; margin-top: 4px; transition: opacity 0.5s; }
+
+    .weather-row { display: flex; justify-content: center; gap: 15px; font-size: 0.7rem; color: var(--text-dim); font-family: 'Roboto Mono', monospace; margin-bottom: 20px; }
+
+    .audio-interface { background: #000; border-radius: 25px; padding: 25px; margin-bottom: 20px; border: 1px solid var(--obs-border); }
+    
+    .btn-play {
+      width: 85px; height: 85px; background: var(--obs-blue); border: none; border-radius: 50%;
+      color: white; font-size: 2.2rem; cursor: pointer; transition: 0.3s; margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 163, 255, 0.3);
+    }
+    .btn-play:disabled { opacity: 0.7; }
+
+    .volume-box { 
+      display: flex; align-items: center; gap: 12px; 
+      background: rgba(255,255,255,0.03); padding: 12px 18px; 
+      border-radius: 15px; border: 1px solid rgba(255,255,255,0.05);
+    }
+    .vol-icon { color: var(--obs-blue); font-size: 0.9rem; }
+    .vol-label { font-family: 'Roboto Mono', monospace; font-size: 0.75rem; color: var(--text-dim); min-width: 40px; text-align: right; }
+    
+    .volume-slider { flex: 1; height: 5px; -webkit-appearance: none; background: rgba(255,255,255,0.1); border-radius: 10px; cursor: pointer; }
+    .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--obs-blue); border-radius: 50%; }
+
+    .news-panel { background: #050505; border-radius: 18px; padding: 15px; margin-bottom: 25px; border-left: 4px solid var(--obs-blue); min-height: 110px; text-align: left; }
+    .news-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .news-category { font-family: 'Roboto Mono', monospace; font-size: 0.6rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+    .cat-deportes { background: rgba(0, 163, 255, 0.15); color: var(--obs-blue); }
+    .cat-farandula { background: rgba(255, 0, 255, 0.15); color: var(--obs-farandula); }
+    .news-date { font-family: 'Roboto Mono', monospace; font-size: 0.55rem; color: #555; }
+    #news-content { font-family: 'Outfit', sans-serif; font-size: 0.9rem; line-height: 1.3; color: #E2E8F0; transition: 0.5s; }
+
+    .section-box { margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--obs-border); text-align: left; }
+    .section-title { font-size: 0.75rem; font-family: 'Roboto Mono', monospace; color: var(--obs-blue); margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+    
+    .photo-display { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 15px; overflow: hidden; border: 1px solid var(--obs-border); margin-bottom: 10px; }
+    /* Ajuste para fotos verticales */
+    .photo-display img { width: 100%; height: 100%; object-fit: contain; background: #000; transition: 0.5s; }
+    
+    .thumb-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+    .thumb-img { min-width: 70px; height: 50px; border-radius: 8px; cursor: pointer; opacity: 0.4; overflow: hidden; border: 2px solid transparent; transition: 0.3s; }
+    .thumb-img.active { border-color: var(--obs-blue); opacity: 1; }
+    .thumb-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    .video-display { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 15px; overflow: hidden; border: 1px solid var(--obs-border); margin-bottom: 10px; }
+    .video-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; }
+    .video-thumb { 
+        min-width: 100px; 
+        aspect-ratio: 16 / 9; 
+        border-radius: 8px; 
+        cursor: pointer; 
+        border: 2px solid transparent; 
+        background-size: cover; 
+        background-position: center; 
+        opacity: 0.6; 
+        transition: 0.3s; 
+    }
+    .video-thumb.active { opacity: 1; border-color: var(--obs-blue); }
+
+    .social-footer { display: flex; gap: 15px; justify-content: center; margin-top: 25px; }
+    .social-btn { width: 42px; height: 42px; border-radius: 12px; background: #1A1D21; color: white; display: flex; align-items: center; justify-content: center; text-decoration: none; border: 1px solid var(--obs-border); transition: 0.3s; }
+    .social-btn:hover { border-color: var(--obs-blue); color: var(--obs-blue); }
+    .fade-out { opacity: 0; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎵 RealyMedios</h1>
-        <div class="subtitle">Sistema de Gestión de Repertorio</div>
-        
-        <a href="biblioteca.html" class="btn btn-primary">📚 BIBLIOTECA MAESTRA</a>
-        <a href="setlist.html" class="btn btn-success">🎯 SETLIST DEL EVENTO</a>
-        <a href="presentacion.html" class="btn btn-warning">🎤 PRESENTACIÓN (Músicos)</a>
-        <a href="admin.html" class="btn btn-secondary">⚙️ ADMIN (Edición Rápida)</a>
-        
-        <div class="footer">
-            <small>📌 Biblioteca: Todas las canciones<br>
-            🎯 Setlist: Arma el orden del evento<br>
-            🎤 Presentación: Vista para músicos</small>
-        </div>
+
+  <div class="player-hero">
+    <div class="logo-display"><img src="Logo.jpeg" alt="Logo"></div>
+    <h1 class="station-title">Realy<span>Medios</span> Radio</h1>
+    
+   
+    <div class="weather-row">
+      <span><i class="fas fa-broadcast-tower"></i> MIRANDA, VZLA</span>
+      <span><i class="fas fa-clock"></i> <span id="local-time">--:--</span></span>
+      <span style="color: var(--obs-blue); font-weight: bold;">● EN VIVO</span>
     </div>
+
+     <div class="song-box">
+      <span class="song-tag"><i class="fas fa-music"></i> Sonando ahora:</span>
+      <div id="current-song">Cargando...</div>
+    </div>
+	
+	<div class="audio-interface">
+      <button id="btnPlay" class="btn-play"><i class="fas fa-play" id="icon"></i></button>
+      <div class="volume-box">
+        <i class="fas fa-volume-up vol-icon"></i>
+        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="80">
+        <span class="vol-label" id="vol-pct">80%</span>
+      </div>
+    </div>
+
+    <div class="news-panel" id="main-panel">
+      <div class="news-meta">
+        <div id="news-tag" class="news-category cat-deportes">Bitácora</div>
+        <div id="news-date" class="news-date">--/-- --:--</div>
+      </div>
+      <div id="news-content">Actualizando noticias...</div>
+    </div>
+
+    <div class="section-box">
+      <div class="section-title"><i class="fas fa-camera"></i> Galería de Eventos</div>
+      <div class="photo-display"><img id="main-photo" src="foto1.png"></div>
+      <div class="thumb-nav">
+        <div class="thumb-img active" onclick="changePhoto('foto1.png', this)"><img src="foto1.png"></div>
+        <div class="thumb-img" onclick="changePhoto('foto2.png', this)"><img src="foto2.png"></div>
+        <div class="thumb-img" onclick="changePhoto('foto5.png', this)"><img src="foto5.png"></div>
+      </div>
+    </div>
+
+    <div class="section-box">
+      <div class="section-title"><i class="fas fa-video"></i> RealyMedios Clips</div>
+      <div class="video-display">
+        <iframe id="yt-player" width="100%" height="100%" src="https://www.youtube.com/embed/a6L0tjd59RU" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="video-nav">
+        <div class="video-thumb active" style="background-image: url('https://img.youtube.com/vi/a6L0tjd59RU/mqdefault.jpg')" onclick="changeVideo('a6L0tjd59RU', this)"></div>
+        <div class="video-thumb" style="background-image: url('https://img.youtube.com/vi/4NFoeK2gthw/mqdefault.jpg')" onclick="changeVideo('4NFoeK2gthw', this)"></div>
+        <div class="video-thumb" style="background-image: url('https://img.youtube.com/vi/CgDQzrakXrA/mqdefault.jpg')" onclick="changeVideo('CgDQzrakXrA', this)"></div>
+      </div>
+    </div>
+
+    <div class="social-footer">
+      <a href="https://instagram.com/realymedios" class="social-btn"><i class="fab fa-instagram"></i></a>
+      <a href="https://tiktok.com/@realymedia" class="social-btn"><i class="fab fa-tiktok"></i></a>
+    </div>
+  </div>
+
+  <script>
+    const streamUrl = 'https://stream.realymedio.online/stream';
+    let sound = null;
+    let isPlaying = false;
+    let currentVol = 0.8;
+
+    function playAudio() {
+      const icon = document.getElementById('icon');
+      const btn = document.getElementById('btnPlay');
+      icon.className = 'fas fa-spinner fa-spin';
+      btn.disabled = true;
+
+      if (sound) { sound.unload(); }
+
+      sound = new Howl({
+        src: [streamUrl + '?t=' + Date.now()], 
+        html5: true, format: ['mp3'], volume: currentVol,
+        onplay: () => { isPlaying = true; icon.className = 'fas fa-pause'; btn.disabled = false; },
+        onstop: () => { isPlaying = false; icon.className = 'fas fa-play'; btn.disabled = false; },
+        onloaderror: () => { icon.className = 'fas fa-play'; btn.disabled = false; }
+      });
+      sound.play();
+    }
+
+    document.getElementById('btnPlay').addEventListener('click', () => { 
+      if (!isPlaying) playAudio(); 
+      else { if (sound) { sound.stop(); sound.unload(); } isPlaying = false; document.getElementById('icon').className = 'fas fa-play'; }
+    });
+
+    const volSlider = document.getElementById('volumeSlider');
+    const volLabel = document.getElementById('vol-pct');
+    volSlider.addEventListener('input', (e) => { 
+      const val = e.target.value;
+      currentVol = val / 100;
+      volLabel.innerText = val + '%';
+      if (sound) sound.volume(currentVol); 
+    });
+
+    function changePhoto(src, el) {
+      const main = document.getElementById('main-photo');
+      main.style.opacity = 0;
+      setTimeout(() => {
+        main.src = src; main.style.opacity = 1;
+        document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+      }, 300);
+    }
+
+    function changeVideo(id, el) {
+      document.getElementById('yt-player').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+      document.querySelectorAll('.video-thumb').forEach(v => v.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    // ACTUALIZACIÓN DE CANCIÓN ACTUAL
+    async function updateCurrentSong() {
+        const songDisplay = document.getElementById('current-song');
+        try {
+            const res = await fetch('https://stream.realymedio.online/status-json.xsl');
+            const data = await res.json();
+            let title = "RealyMedios Radio";
+            if(data.icestats && data.icestats.source) {
+                const s = Array.isArray(data.icestats.source) ? data.icestats.source[0] : data.icestats.source;
+                title = s.title || title;
+            }
+            if(songDisplay.innerText !== title) {
+                songDisplay.style.opacity = 0;
+                setTimeout(() => { songDisplay.innerText = title; songDisplay.style.opacity = 1; }, 500);
+            }
+        } catch(e) { songDisplay.innerText = "Transmisión en Vivo"; }
+    }
+    setInterval(updateCurrentSong, 15000);
+    updateCurrentSong();
+
+    setInterval(() => {
+      document.getElementById('local-time').innerText = new Date().toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit', hour12: true });
+    }, 1000);
+
+    let newsItems = [];
+    let currentIndex = 0;
+    async function fetchNews() {
+      const proxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
+      const urls = [
+        'https://news.google.com/rss/search?q=deportes+venezuela&hl=es-419&gl=VE',
+        'https://news.google.com/rss/search?q=farandula+venezuela&hl=es-419&gl=VE'
+      ];
+      try {
+        let loaded = [];
+        for (let url of urls) {
+          const res = await fetch(proxy + encodeURIComponent(url) + '&cache=' + Date.now());
+          const data = await res.json();
+          if(data.status === 'ok') {
+            data.items.forEach(item => {
+              loaded.push({ title: item.title.split(' - ')[0], date: item.pubDate, cat: url.includes('deportes') ? 'Deportes' : 'Farándula' });
+            });
+          }
+        }
+        newsItems = loaded;
+        if (currentIndex === 0 && newsItems.length > 0) rotateNews();
+      } catch (e) { console.error("Error news"); }
+    }
+
+    function rotateNews() {
+      if (newsItems.length === 0) return;
+      const content = document.getElementById('news-content');
+      const tag = document.getElementById('news-tag');
+      const dateEl = document.getElementById('news-date');
+      const panel = document.getElementById('main-panel');
+      content.classList.add('fade-out');
+      setTimeout(() => {
+        const item = newsItems[currentIndex];
+        const d = new Date(item.date);
+        tag.innerText = item.cat;
+        tag.className = "news-category " + (item.cat === 'Deportes' ? "cat-deportes" : "cat-farandula");
+        panel.style.borderLeftColor = (item.cat === 'Deportes' ? "var(--obs-blue)" : "var(--obs-farandula)");
+        dateEl.innerText = d.toLocaleDateString('es-VE') + " " + d.toLocaleTimeString('es-VE', {hour:'2-digit', minute:'2-digit', hour12:true});
+        content.innerText = item.title;
+        content.classList.remove('fade-out');
+        currentIndex = (currentIndex + 1) % newsItems.length;
+      }, 500);
+      setTimeout(rotateNews, 10000);
+    }
+    fetchNews();
+    setInterval(fetchNews, 600000);
+  </script>
 </body>
 </html>
