@@ -161,11 +161,9 @@
 
     <div class="section-box">
       <div class="section-title"><i class="fas fa-camera"></i> Galería de Eventos</div>
-      <div class="photo-display"><img id="main-photo" src="galeria/foto1.png"></div>
-      <div class="thumb-nav">
-        <div class="thumb-img active" onclick="changePhoto('galeria/foto1.png', this)"><img src="galeria/foto1.png"></div>
-        <div class="thumb-img" onclick="changePhoto('galeria/foto2.png', this)"><img src="galeria/foto2.png"></div>
-        <div class="thumb-img" onclick="changePhoto('galeria/foto5.png', this)"><img src="galeria/foto5.png"></div>
+      <div class="photo-display"><img id="main-photo" src="" style="display: none;"></div>
+      <div id="thumb-nav" class="thumb-nav">
+        <!-- Las fotos se cargarán aquí automáticamente -->
       </div>
     </div>
 
@@ -316,8 +314,35 @@
       }, 500);
       setTimeout(rotateNews, 10000);
     }
+    async function fetchGallery() {
+      const api = 'https://api.github.com/repos/RealyMedios/RealyMedios/contents/galeria';
+      const rawBase = 'https://raw.githubusercontent.com/RealyMedios/RealyMedios/main/galeria/';
+      const nav = document.getElementById('thumb-nav');
+      const main = document.getElementById('main-photo');
+      try {
+        const res = await fetch(api);
+        const files = await res.json();
+        const images = files.filter(f => f.name.match(/\.(png|jpg|jpeg|webp)$/i));
+        
+        if (images.length > 0) {
+          nav.innerHTML = '';
+          images.forEach((img, i) => {
+            const url = rawBase + img.name;
+            const div = document.createElement('div');
+            div.className = 'thumb-img' + (i === 0 ? ' active' : '');
+            div.onclick = function() { changePhoto(url, this); };
+            div.innerHTML = `<img src="${url}">`;
+            nav.appendChild(div);
+            if (i === 0) { main.src = url; main.style.display = 'block'; }
+          });
+        }
+      } catch (e) { console.error("Error gallery"); }
+    }
+
     fetchNews();
+    fetchGallery();
     setInterval(fetchNews, 600000);
+    setInterval(fetchGallery, 3600000); // Actualiza cada hora
   </script>
 </body>
 </html>
